@@ -1,16 +1,12 @@
-import Navigation from '../components/Navigation'
-import Footer from '../components/Footer'
-import AnimatedBackground from '../components/AnimatedBackground'
+import Layout from '../components/Layout'
 
-export default function Layout({ children }) {
+export default function Contact() {
   return (
-    <div className="layout">
-      <AnimatedBackground />
-      <Navigation />
-      <main className="main-content">
-        {children}
-      </main>
-      <Footer />
-    </div>
+    <Layout>
+      <div className="page-content">
+        <h1>Contact Us</h1>
+        <p>Get in touch with our team.</p>
+      </div>
+    </Layout>
   )
 }
