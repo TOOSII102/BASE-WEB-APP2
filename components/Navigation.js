@@ -1,10 +1,11 @@
+'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const router = useRouter()
+  const pathname = usePathname()
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -24,7 +25,8 @@ export default function Navigation() {
             <Link 
               key={item.path}
               href={item.path}
-              className={`nav-link ${router.pathname === item.path ? 'active' : ''}`}
+              className={`nav-link ${pathname === item.path ? 'active' : ''}`}
+              onClick={() => setIsMenuOpen(false)}
             >
               {item.label}
             </Link>
@@ -42,4 +44,4 @@ export default function Navigation() {
       </div>
     </nav>
   )
-                        }
+}
