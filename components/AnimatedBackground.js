@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useRef } from 'react'
 
 export default function AnimatedBackground() {
@@ -5,6 +6,8 @@ export default function AnimatedBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
+    if (!canvas) return
+
     const ctx = canvas.getContext('2d')
     let animationFrameId
 
@@ -23,7 +26,7 @@ export default function AnimatedBackground() {
         this.size = Math.random() * 2 + 1
         this.speedX = Math.random() * 1 - 0.5
         this.speedY = Math.random() * 1 - 0.5
-        this.color = `hsl(${Math.random() * 360}, 50%, 60%)`
+        this.color = `hsl(${Math.random() * 360}, 70%, 60%)`
       }
 
       update() {
@@ -45,18 +48,39 @@ export default function AnimatedBackground() {
     }
 
     const particles = []
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push(new Particle())
     }
 
+    const connectParticles = () => {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 100) {
+            ctx.beginPath()
+            ctx.strokeStyle = `hsla(${(i * j) % 360}, 70%, 60%, ${0.2 * (1 - distance / 100)})`
+            ctx.lineWidth = 0.5
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.stroke()
+          }
+        }
+      }
+    }
+
     const animate = () => {
-      ctx.fillStyle = 'rgba(10, 10, 20, 0.1)'
+      ctx.fillStyle = 'rgba(10, 10, 20, 0.05)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       particles.forEach(particle => {
         particle.update()
         particle.draw()
       })
+
+      connectParticles()
 
       animationFrameId = requestAnimationFrame(animate)
     }
