@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: false, // Set to false if using pages directory
+    appDir: true,
   },
-  trailingSlash: false,
 }
 
 module.exports = nextConfig
