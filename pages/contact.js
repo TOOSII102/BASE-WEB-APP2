@@ -1,6 +1,6 @@
-import Navigation from './Navigation'
-import Footer from './Footer'
-import AnimatedBackground from './AnimatedBackground'
+import Navigation from '../components/Navigation'
+import Footer from '../components/Footer'
+import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function Layout({ children }) {
   return (
