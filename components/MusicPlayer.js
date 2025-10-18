@@ -1,3 +1,4 @@
+'use client'
 import { useState, useRef, useEffect } from 'react'
 
 export default function MusicPlayer() {
@@ -7,18 +8,25 @@ export default function MusicPlayer() {
   const [duration, setDuration] = useState('0:00')
   const audioRef = useRef(null)
 
+  // Sample audio URL - replace with your actual audio file
+  const audioUrl = '/audio/sample-song.mp3'
+
   const togglePlay = () => {
+    if (!audioRef.current) return
+
     if (isPlaying) {
       audioRef.current.pause()
     } else {
-      audioRef.current.play()
+      audioRef.current.play().catch(error => {
+        console.log('Audio play failed:', error)
+      })
     }
     setIsPlaying(!isPlaying)
   }
 
   const updateProgress = () => {
     const audio = audioRef.current
-    if (audio.duration) {
+    if (audio && audio.duration) {
       const progressPercent = (audio.currentTime / audio.duration) * 100
       setProgress(progressPercent)
       setCurrentTime(formatTime(audio.currentTime))
@@ -26,26 +34,40 @@ export default function MusicPlayer() {
   }
 
   const formatTime = (seconds) => {
+    if (isNaN(seconds)) return '0:00'
     const mins = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`
   }
 
-  useEffect(() => {
+  const handleLoadedMetadata = () => {
     const audio = audioRef.current
     if (audio) {
-      audio.addEventListener('loadedmetadata', () => {
-        setDuration(formatTime(audio.duration))
-      })
-      audio.addEventListener('timeupdate', updateProgress)
-      audio.addEventListener('ended', () => setIsPlaying(false))
+      setDuration(formatTime(audio.duration))
     }
+  }
+
+  const handleSeek = (e) => {
+    const audio = audioRef.current
+    if (!audio || !audio.duration) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const percent = (e.clientX - rect.left) / rect.width
+    audio.currentTime = percent * audio.duration
+  }
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
+    audio.addEventListener('timeupdate', updateProgress)
+    audio.addEventListener('ended', () => setIsPlaying(false))
 
     return () => {
-      if (audio) {
-        audio.removeEventListener('timeupdate', updateProgress)
-        audio.removeEventListener('ended', () => setIsPlaying(false))
-      }
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      audio.removeEventListener('timeupdate', updateProgress)
+      audio.removeEventListener('ended', () => setIsPlaying(false))
     }
   }, [])
 
@@ -53,7 +75,7 @@ export default function MusicPlayer() {
     <div className="music-player">
       <audio
         ref={audioRef}
-        src="/audio/sample-song.mp3"
+        src={audioUrl}
         preload="metadata"
       />
       
@@ -64,7 +86,7 @@ export default function MusicPlayer() {
         
         <div className="progress-container">
           <span className="time-current">{currentTime}</span>
-          <div className="progress-bar">
+          <div className="progress-bar" onClick={handleSeek}>
             <div 
               className="progress" 
               style={{ width: `${progress}%` }}
@@ -72,6 +94,10 @@ export default function MusicPlayer() {
           </div>
           <span className="time-duration">{duration}</span>
         </div>
+      </div>
+
+      <div className="now-playing">
+        <span>Now Playing: Sample Track</span>
       </div>
     </div>
   )
