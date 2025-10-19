@@ -1,5 +1,5 @@
-import Layout from '@/components/Layout'
-import AnimatedBackground from '@/components/AnimatedBackground'
+import Layout from '../components/Layout'
+import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function Home() {
   return (
