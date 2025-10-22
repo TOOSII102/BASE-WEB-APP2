@@ -1,7 +1,10 @@
 import Link from 'next/link'
 
+
 export default function PrivacyPolicy() {
   const currentYear = new Date().getFullYear()
+
+
   
   return (
     <div style={{ 
