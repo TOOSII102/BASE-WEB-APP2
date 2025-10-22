@@ -1,3 +1,4 @@
+'use client'
 import Layout from '../../components/Layout'
 import AnimatedBackground from '../../components/AnimatedBackground'
 import './team.css'
@@ -14,7 +15,6 @@ export default function Team() {
       experience: "12+ years",
       education: "M.Sc. Computer Science & Business Administration",
       email: "toosiitechcompany@gmail.com",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop&crop=face", // AI CEO image
       featured: true
     },
     {
@@ -27,7 +27,6 @@ export default function Team() {
       experience: "10+ years",
       education: "B.Sc. Software Engineering, Advanced Cloud Certifications",
       email: "caspertechke@gmail.com",
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=400&fit=crop&crop=face", // Tech leader image
       featured: true
     },
     {
@@ -40,7 +39,6 @@ export default function Team() {
       experience: "8+ years",
       education: "CISSP, CEH Certified",
       email: "jamalikicom@gmail.com",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face", // Cybersecurity expert image
       featured: true
     },
     {
@@ -53,41 +51,14 @@ export default function Team() {
       experience: "6+ years",
       education: "B.Sc. Computer Science",
       email: "jeshi5005@gmail.com",
-      image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=400&fit=crop&crop=face", // Developer image
-      featured: false
-    },
-    {
-      id: 5,
-      name: "Toosii Tech",
-      role: "AI Research Lead",
-      department: "Artificial Intelligence",
-      bio: "Machine learning researcher focused on developing innovative AI solutions and implementing cutting-edge algorithms for business applications.",
-      expertise: ["Machine Learning", "Deep Learning", "Natural Language Processing", "Computer Vision", "Data Science"],
-      experience: "7+ years",
-      education: "Ph.D. Artificial Intelligence",
-      email: "toosiitechcompany@gmail.com",
-      image: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=400&fit=crop&crop=face", // AI researcher image
-      featured: false
-    },
-    {
-      id: 6,
-      name: "Toosii Tech",
-      role: "Blockchain Architect",
-      department: "Web3 & Blockchain",
-      bio: "Blockchain expert specializing in decentralized systems, smart contracts, and Web3 application development for modern businesses.",
-      expertise: ["Smart Contracts", "Ethereum", "Solidity", "DeFi", "Web3 Development", "NFT Platforms"],
-      experience: "5+ years",
-      education: "M.Sc. Cryptography & Blockchain",
-      email: "toosiitechcompany@gmail.com",
-      image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop&crop=face", // Blockchain expert image
       featured: false
     }
   ]
 
   const stats = [
-    { number: "6", label: "Team Members" },
+    { number: "4", label: "Core Team Members" },
     { number: "8+", label: "Years Average Experience" },
-    { number: "20+", label: "Certifications" },
+    { number: "15+", label: "Certifications" },
     { number: "50+", label: "Projects Completed" }
   ]
 
@@ -101,7 +72,7 @@ export default function Team() {
             <div className="hero-content">
               <h1>Meet Our Team</h1>
               <p className="hero-subtitle">
-                The elite team behind TOOSII TECH. Our cybersecurity and AI experts deliver cutting-edge technology solutions.
+                The core team behind TOOSII TECH. Our dedicated experts deliver exceptional technology solutions with the emails you know and trust.
               </p>
               <div className="hero-stats">
                 {stats.map((stat, index) => (
@@ -117,26 +88,15 @@ export default function Team() {
           {/* Leadership Team */}
           <div className="leadership-section">
             <div className="container">
-              <h2 className="section-title">Leadership Team</h2>
+              <h2 className="section-title">Core Team</h2>
               <p className="section-subtitle">
-                Our experienced leadership team drives TOOSII TECH's vision with expertise in cybersecurity and AI innovation.
+                Meet the leadership team that drives TOOSII TECH's vision and innovation.
               </p>
               <div className="leadership-grid">
                 {teamMembers.filter(member => member.featured).map(member => (
                   <div key={member.id} className="leader-card">
                     <div className="leader-image">
-                      <img 
-                        src={member.image} 
-                        alt={member.name}
-                        className="team-photo"
-                        onError={(e) => {
-                          e.target.style.display = 'none'
-                          e.target.nextSibling.style.display = 'flex'
-                        }}
-                      />
-                      <div className="image-placeholder">
-                        {member.name.split(' ').map(name => name[0]).join('')}
-                      </div>
+                      <div className="image-placeholder"></div>
                     </div>
                     <div className="leader-content">
                       <h3>{member.name}</h3>
@@ -180,26 +140,15 @@ export default function Team() {
           {/* Full Team Grid */}
           <div className="full-team-section">
             <div className="container">
-              <h2 className="section-title">Our Expert Team</h2>
+              <h2 className="section-title">Our Team Members</h2>
               <p className="section-subtitle">
-                Meet the talented professionals who make TOOSII TECH a leader in cybersecurity and AI innovation.
+                Meet all the talented professionals who make TOOSII TECH a leader in technology innovation.
               </p>
               <div className="team-grid">
                 {teamMembers.filter(member => !member.featured).map(member => (
                   <div key={member.id} className="team-member-card">
                     <div className="member-image">
-                      <img 
-                        src={member.image} 
-                        alt={member.name}
-                        className="team-photo"
-                        onError={(e) => {
-                          e.target.style.display = 'none'
-                          e.target.nextSibling.style.display = 'flex'
-                        }}
-                      />
-                      <div className="image-placeholder">
-                        {member.name.split(' ').map(name => name[0]).join('')}
-                      </div>
+                      <div className="image-placeholder"></div>
                     </div>
                     <div className="member-content">
                       <h3>{member.name}</h3>
@@ -255,10 +204,10 @@ export default function Team() {
           <div className="join-team-cta">
             <div className="container">
               <div className="cta-content">
-                <h2>Join Our Elite Team</h2>
+                <h2>Join Our Team</h2>
                 <p>
-                  Are you passionate about cybersecurity, AI, and cutting-edge technology? 
-                  We're always looking for talented individuals to join our elite team.
+                  Are you passionate about technology and innovation? We're always looking for talented 
+                  individuals to join our team.
                 </p>
                 <div className="cta-buttons">
                   <a href="/careers" className="cta-button primary">
