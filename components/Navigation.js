@@ -25,8 +25,14 @@ export default function Navigation() {
           <Link href="/services" className="nav-link" onClick={() => setIsMenuOpen(false)}>
             Services
           </Link>
+          <Link href="/case-studies" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Case Studies
+          </Link>
           <Link href="/careers" className="nav-link" onClick={() => setIsMenuOpen(false)}>
             Careers
+          </Link>
+          <Link href="/blog" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Blog
           </Link>
           <Link href="/contact" className="nav-link" onClick={() => setIsMenuOpen(false)}>
             Contact
