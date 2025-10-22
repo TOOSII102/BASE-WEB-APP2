@@ -14,18 +14,18 @@
 }
 
 /* Global Styles for TOOSII TECH */
-:global(.tech-gradient) {
+.tech-gradient {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-:global(.tech-gradient-text) {
+.tech-gradient-text {
   background: linear-gradient(45deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-:global(.tech-card) {
+.tech-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -33,7 +33,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-:global(.tech-button) {
+.tech-button {
   background: linear-gradient(45deg, #667eea, #764ba2);
   color: white;
   border: none;
@@ -46,19 +46,19 @@
   display: inline-block;
 }
 
-:global(.tech-button:hover) {
+.tech-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
-:global(.tech-button-outline) {
+.tech-button-outline {
   background: transparent;
   color: #667eea;
   border: 2px solid #667eea;
   padding: 10px 22px;
 }
 
-:global(.tech-button-outline:hover) {
+.tech-button-outline:hover {
   background: #667eea;
   color: white;
 }
