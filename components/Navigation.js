@@ -1,54 +1,57 @@
-'use client' // Add this at the top
-
+'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import './navigation.css'
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <nav className="navigation">
-      <div className="nav-container">
-        <div className="nav-brand">
-          <Link href="/" className="brand-link">
-            <span className="brand-logo">TOOSII TECH</span>
-          </Link>
-        </div>
+    <nav style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(10px)',
+      zIndex: 1000,
+      padding: '1rem 2rem'
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Link href="/" style={{
+          fontSize: '1.8rem',
+          fontWeight: '800',
+          background: 'linear-gradient(45deg, #667eea, #764ba2)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          textDecoration: 'none'
+        }}>
+          TOOSII TECH
+        </Link>
 
-        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <Link href="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          <Link href="/" style={{ color: '#2d3748', textDecoration: 'none', fontWeight: '500' }}>
             Home
           </Link>
-          <Link href="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+          <Link href="/about" style={{ color: '#2d3748', textDecoration: 'none', fontWeight: '500' }}>
             About
           </Link>
-          <Link href="/services" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-            Services
-          </Link>
-          <Link href="/projects" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-            Projects
-          </Link>
-          <Link href="/contact" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+          <Link href="/contact" style={{
+            background: 'linear-gradient(45deg, #667eea, #764ba2)',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontWeight: '600'
+          }}>
             Contact
           </Link>
         </div>
-
-        <div className="nav-actions">
-          <Link href="/contact" className="cta-button">
-            Get Started
-          </Link>
-        </div>
-
-        <button 
-          className={`mobile-menu-button ${isMenuOpen ? 'active' : ''}`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
     </nav>
   )
