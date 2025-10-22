@@ -126,6 +126,7 @@
   align-items: center;
   gap: 0.8rem;
   color: #cbd5e0;
+  font-size: 0.9rem;
 }
 
 .contact-item svg {
@@ -148,11 +149,13 @@
   color: #cbd5e0;
   margin-bottom: 1.5rem;
   line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 .newsletter-form {
   display: flex;
   gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 
 .newsletter-input {
@@ -191,6 +194,37 @@
 .newsletter-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* App Links */
+.footer-apps {
+  margin-top: 1.5rem;
+}
+
+.footer-apps p {
+  color: #cbd5e0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.app-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.app-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.app-link:hover {
+  color: #667eea;
 }
 
 /* Footer Bottom */
@@ -253,6 +287,8 @@
 
   .footer-legal {
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .newsletter-form {
@@ -261,6 +297,15 @@
 
   .newsletter-button {
     width: 100%;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-brand {
+    text-align: center;
+    max-width: none;
   }
 }
 
@@ -273,7 +318,12 @@
     font-size: 1.5rem;
   }
 
-  .social-links {
-    justify-content: center;
+  .contact-item {
+    font-size: 0.85rem;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
