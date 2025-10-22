@@ -1,3 +1,5 @@
+'use client' // Add this at the top
+
 import { useState } from 'react'
 import Link from 'next/link'
 import './navigation.css'
@@ -39,7 +41,7 @@ export default function Navigation() {
         </div>
 
         <button 
-          className="mobile-menu-button"
+          className={`mobile-menu-button ${isMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
