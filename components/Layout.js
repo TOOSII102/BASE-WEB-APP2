@@ -2,6 +2,7 @@ import Navigation from './Navigation'
 import Footer from './Footer'
 import AnimatedBackground from './AnimatedBackground'
 import MusicPlayer from './MusicPlayer'
+import './layout.css'
 
 export default function Layout({ children }) {
   return (
