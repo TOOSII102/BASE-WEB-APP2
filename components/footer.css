@@ -144,7 +144,7 @@
   color: #667eea;
 }
 
-/* Newsletter & Social Platforms */
+/* Social Platforms Section - Icons Only */
 .newsletter-text {
   color: #cbd5e0;
   margin-bottom: 1.5rem;
@@ -158,29 +158,72 @@
 
 .platform-links {
   display: flex;
-  flex-direction: column;
   gap: 0.8rem;
+  justify-content: flex-start;
 }
 
 .platform-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
   color: #cbd5e0;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
-  padding: 0.5rem;
-  border-radius: 6px;
+  position: relative;
 }
 
 .platform-link:hover {
-  color: #667eea;
-  background: rgba(255, 255, 255, 0.05);
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
 }
 
-.platform-link svg {
-  flex-shrink: 0;
+/* Hide text in platform links - show only icons */
+.platform-link span {
+  display: none;
+}
+
+/* Tooltip for platform links */
+.platform-link::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d3748;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.platform-link::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #2d3748;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.platform-link:hover::after,
+.platform-link:hover::before {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Footer Bottom */
@@ -247,17 +290,14 @@
     justify-content: center;
   }
 
-  .social-links {
+  .social-links,
+  .platform-links {
     justify-content: center;
   }
 
   .footer-brand {
     text-align: center;
     max-width: none;
-  }
-
-  .platform-links {
-    align-items: center;
   }
 }
 
@@ -279,8 +319,8 @@
     gap: 0.5rem;
   }
 
-  .platform-link {
-    font-size: 0.85rem;
+  .platform-links {
+    gap: 0.5rem;
   }
 }
 
@@ -297,7 +337,8 @@
   }
 }
 
-.social-link:hover {
+.social-link:hover,
+.platform-link:hover {
   animation: bounce 0.6s ease;
 }
 
@@ -321,12 +362,18 @@
     transition: none;
   }
   
-  .social-link:hover {
+  .social-link:hover,
+  .platform-link:hover {
     animation: none;
     transform: none;
   }
   
   .footer-links a:hover::before {
+    transition: none;
+  }
+  
+  .platform-link::after,
+  .platform-link::before {
     transition: none;
   }
 }
