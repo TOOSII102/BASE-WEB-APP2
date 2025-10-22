@@ -1,46 +1,52 @@
-'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import './navigation.css'
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathname = usePathname()
-
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' }
-  ]
 
   return (
-    <nav className="navbar">
+    <nav className="navigation">
       <div className="nav-container">
-        <div className="nav-logo">
-          <Link href="/">MusicFlow</Link>
-        </div>
-        
-        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map(item => (
-            <Link 
-              key={item.path}
-              href={item.path}
-              className={`nav-link ${pathname === item.path ? 'active' : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="nav-brand">
+          <Link href="/" className="brand-link">
+            <span className="brand-logo">TOOSII TECH</span>
+          </Link>
         </div>
 
-        <div 
-          className="hamburger"
+        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+          <Link href="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            About
+          </Link>
+          <Link href="/services" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Services
+          </Link>
+          <Link href="/projects" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Projects
+          </Link>
+          <Link href="/contact" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+            Contact
+          </Link>
+        </div>
+
+        <div className="nav-actions">
+          <Link href="/contact" className="cta-button">
+            Get Started
+          </Link>
+        </div>
+
+        <button 
+          className="mobile-menu-button"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
         >
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
       </div>
     </nav>
   )
