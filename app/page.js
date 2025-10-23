@@ -7,6 +7,109 @@ export default function Home() {
       background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
       color: 'white'
     }}>
+      {/* Navigation Header */}
+      <nav style={{
+        background: 'rgba(15, 23, 42, 0.9)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid #334155',
+        padding: '1rem 0',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          {/* Logo */}
+          <Link href="/" style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: 'white',
+            textDecoration: 'none',
+            background: 'linear-gradient(45deg, #667eea, #764ba2)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent'
+          }}>
+            TOOSII TECH
+          </Link>
+
+          {/* Navigation Links */}
+          <div style={{
+            display: 'flex',
+            gap: '2rem',
+            alignItems: 'center'
+          }}>
+            <Link href="/" style={{
+              color: 'white',
+              textDecoration: 'none',
+              fontWeight: '500',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.3s ease'
+            }}>
+              Home
+            </Link>
+            <Link href="/services" style={{
+              color: '#cbd5e0',
+              textDecoration: 'none',
+              fontWeight: '500',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.3s ease'
+            }}>
+              Services
+            </Link>
+            <Link href="/about" style={{
+              color: '#cbd5e0',
+              textDecoration: 'none',
+              fontWeight: '500',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.3s ease'
+            }}>
+              About Us
+            </Link>
+            <Link href="/case-studies" style={{
+              color: '#cbd5e0',
+              textDecoration: 'none',
+              fontWeight: '500',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.3s ease'
+            }}>
+              Case Studies
+            </Link>
+            <Link href="/blog" style={{
+              color: '#cbd5e0',
+              textDecoration: 'none',
+              fontWeight: '500',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              transition: 'all 0.3s ease'
+            }}>
+              Blog
+            </Link>
+            <Link href="/contact" style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              color: 'white',
+              textDecoration: 'none',
+              fontWeight: '600',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '8px',
+              transition: 'all 0.3s ease'
+            }}>
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section style={{
         padding: '6rem 2rem',
