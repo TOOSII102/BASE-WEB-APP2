@@ -68,7 +68,7 @@ export default function CloudSolutions() {
             We provide end-to-end cloud services tailored to your unique needs.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button style={{
+            <a href="mailto:toosiitechcompany@gmail.com?subject=Cloud Solutions Inquiry&body=Hello TOOSII TECH, I'm interested in your Cloud Solutions services. Please contact me with more information." style={{
               background: 'linear-gradient(45deg, #3b82f6, #2563eb)',
               color: 'white',
               border: 'none',
@@ -77,10 +77,12 @@ export default function CloudSolutions() {
               fontSize: '1rem',
               fontWeight: '600',
               cursor: 'pointer',
-              transition: 'transform 0.2s'
+              transition: 'transform 0.2s',
+              textDecoration: 'none',
+              display: 'inline-block'
             }}>
               Get Started
-            </button>
+            </a>
             <button style={{
               background: 'transparent',
               color: '#60a5fa',
@@ -264,11 +266,12 @@ export default function CloudSolutions() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Email CTA Section */}
       <section style={{
         padding: '6rem 2rem',
-        background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-        textAlign: 'center'
+        background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+        textAlign: 'center',
+        borderTop: '1px solid #334155'
       }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{
@@ -277,74 +280,116 @@ export default function CloudSolutions() {
             marginBottom: '1rem',
             color: 'white'
           }}>
-            Ready to Transform Your Infrastructure?
+            Get Started Today
           </h2>
           <p style={{
             fontSize: '1.125rem',
-            color: '#dbeafe',
+            color: '#cbd5e1',
             marginBottom: '2rem',
             lineHeight: '1.6'
           }}>
-            Let's discuss how our cloud solutions can drive your business forward with scalability, security, and innovation.
+            Ready to transform your infrastructure? Send us an email and our cloud experts will contact you within 24 hours to discuss your project needs.
           </p>
+          
+          <div style={{
+            background: 'linear-gradient(135deg, #334155, #475569)',
+            padding: '2rem',
+            borderRadius: '12px',
+            border: '1px solid #64748b',
+            marginBottom: '2rem'
+          }}>
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              marginBottom: '1rem',
+              color: 'white'
+            }}>
+              Email Us Directly
+            </h3>
+            <a 
+              href="mailto:toosiitechcompany@gmail.com?subject=Cloud Solutions Project&body=Hello TOOSII TECH Team,%0A%0AI'm interested in your Cloud Solutions services. Here are my project details:%0A%0A- Current infrastructure:%0A- Desired cloud platform:%0A- Project timeline:%0A- Budget range:%0A%0APlease contact me to discuss further.%0A%0ABest regards,"
+              style={{
+                background: 'linear-gradient(45deg, #3b82f6, #2563eb)',
+                color: 'white',
+                border: 'none',
+                padding: '15px 30px',
+                borderRadius: '8px',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                display: 'inline-block',
+                transition: 'transform 0.2s'
+              }}
+              onMouseOver="this.style.transform='translateY(-2px)'"
+              onMouseOut="this.style.transform='translateY(0)'"
+            >
+              📧 toosiitechcompany@gmail.com
+            </a>
+            <p style={{
+              color: '#94a3b8',
+              fontSize: '0.9rem',
+              marginTop: '1rem'
+            }}>
+              Pre-filled with project inquiry template
+            </p>
+          </div>
+
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button style={{
-              background: 'white',
-              color: '#3b82f6',
-              border: 'none',
-              padding: '12px 32px',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'transform 0.2s'
-            }}>
-              Start Your Cloud Journey
-            </button>
-            <button style={{
-              background: 'transparent',
-              color: 'white',
-              border: '2px solid white',
-              padding: '12px 32px',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}>
-              Schedule Consultation
-            </button>
+            <a 
+              href="mailto:toosiitechcompany@gmail.com?subject=Cloud Migration Inquiry"
+              style={{
+                background: 'linear-gradient(45deg, #10b981, #059669)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                display: 'inline-block'
+              }}
+            >
+              Cloud Migration
+            </a>
+            <a 
+              href="mailto:toosiitechcompany@gmail.com?subject=Infrastructure Setup Inquiry"
+              style={{
+                background: 'linear-gradient(45deg, #f59e0b, #d97706)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                display: 'inline-block'
+              }}
+            >
+              Infrastructure Setup
+            </a>
+            <a 
+              href="mailto:toosiitechcompany@gmail.com?subject=DevOps Automation Inquiry"
+              style={{
+                background: 'linear-gradient(45deg, #8b5cf6, #7c3aed)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                display: 'inline-block'
+              }}
+            >
+              DevOps & Automation
+            </a>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer style={{
-        background: '#0f172a',
-        padding: '3rem 2rem',
-        borderTop: '1px solid #334155'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          textAlign: 'center'
-        }}>
-          <p style={{ color: '#64748b', marginBottom: '2rem' }}>
-            © 2024 TOOSII TECH COMPANY. All rights reserved.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-            <Link href="/privacy-policy" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-service" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              Terms of Service
-            </Link>
-            <Link href="/contact" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
