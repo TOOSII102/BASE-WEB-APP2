@@ -2,241 +2,242 @@ import Link from 'next/link'
 
 export default function Contact() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)',
+      color: 'white',
+      padding: '2rem 0'
+    }}>
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        padding: '0 2rem' 
+      }}>
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Start Your Project
+        <div style={{ 
+          textAlign: 'center', 
+          marginBottom: '3rem' 
+        }}>
+          <h1 style={{ 
+            fontSize: '3rem', 
+            fontWeight: 'bold', 
+            marginBottom: '1rem',
+            background: 'linear-gradient(45deg, #667eea, #764ba2)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent'
+          }}>
+            Contact Us
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Ready to transform your business with cutting-edge technology? 
-            Let's discuss your project and create something amazing together.
+          <p style={{ 
+            fontSize: '1.25rem', 
+            color: '#cbd5e0' 
+          }}>
+            Get in touch with our team to discuss your project
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Get In Touch
+        {/* Get in Touch Across the Web Section */}
+        <section style={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          padding: '3rem',
+          borderRadius: '12px',
+          textAlign: 'center',
+          marginBottom: '3rem',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <h2 style={{ 
+            fontSize: '2rem', 
+            marginBottom: '1rem',
+            color: 'white'
+          }}>
+            Get in Touch Across the Web
+          </h2>
+          <p style={{ 
+            fontSize: '1.1rem', 
+            color: '#cbd5e0',
+            marginBottom: '2rem'
+          }}>
+            Prefer direct communication? Reach out to us anytime via email
+          </p>
+          <a 
+            href="mailto:toosiitechcompany@gmail.com"
+            style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              color: 'white',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '1.1rem',
+              display: 'inline-block',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            📧 toosiitechcompany@gmail.com
+          </a>
+          <p style={{ 
+            color: '#a0aec0', 
+            marginTop: '1rem',
+            fontStyle: 'italic'
+          }}>
+            We typically respond within 2 hours during business hours
+          </p>
+        </section>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '3rem'
+        }}>
+          {/* Contact Information */}
+          <div>
+            <h2 style={{ 
+              fontSize: '2rem', 
+              marginBottom: '2rem',
+              color: 'white'
+            }}>
+              Get in Touch
             </h2>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                    First Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                    placeholder="John"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                    placeholder="Doe"
-                  />
+            
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              padding: '2rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ 
+                  fontSize: '1.2rem', 
+                  marginBottom: '1rem',
+                  color: '#667eea'
+                }}>
+                  Contact Information
+                </h3>
+                <div style={{ color: '#cbd5e0', lineHeight: '2' }}>
+                  <p>📧 <a href="mailto:toosiitechcompany@gmail.com" style={{ color: '#667eea' }}>toosiitechcompany@gmail.com</a></p>
+                  <p>📞 <a href="tel:+254748340864" style={{ color: '#667eea' }}>+254 748 340 864</a></p>
+                  <p>📍 Nairobi, Kenya</p>
+                  <p>🕒 Mon - Fri: 9:00 AM - 6:00 PM EAT</p>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
+                <h3 style={{ 
+                  fontSize: '1.2rem', 
+                  marginBottom: '1rem',
+                  color: '#667eea'
+                }}>
+                  Social Media
+                </h3>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <a href="https://twitter.com/austin254ke" style={{ color: '#cbd5e0' }}>Twitter</a>
+                  <a href="https://t.me/toosiitech" style={{ color: '#cbd5e0' }}>Telegram</a>
+                  <a href="https://www.facebook.com/ToosiiGrainger.com9" style={{ color: '#cbd5e0' }}>Facebook</a>
+                  <a href="https://instagram.com/toosii_ke" style={{ color: '#cbd5e0' }}>Instagram</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <h2 style={{ 
+              fontSize: '2rem', 
+              marginBottom: '2rem',
+              color: 'white'
+            }}>
+              Send us a Message
+            </h2>
+            
+            <form style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              padding: '2rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '0.5rem',
+                  color: '#cbd5e0'
+                }}>
+                  Name
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="john@company.com"
+                <input 
+                  type="text" 
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    borderRadius: '4px',
+                    border: '1px solid #4a5568',
+                    background: '#2d3748',
+                    color: 'white'
+                  }}
+                  placeholder="Your name"
                 />
               </div>
 
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                  Company
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '0.5rem',
+                  color: '#cbd5e0'
+                }}>
+                  Email
                 </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="Your Company Name"
+                <input 
+                  type="email" 
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    borderRadius: '4px',
+                    border: '1px solid #4a5568',
+                    background: '#2d3748',
+                    color: 'white'
+                  }}
+                  placeholder="your.email@example.com"
                 />
               </div>
 
-              <div>
-                <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
-                  Service Interested In
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '0.5rem',
+                  color: '#cbd5e0'
+                }}>
+                  Message
                 </label>
-                <select
-                  id="service"
-                  name="service"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                >
-                  <option value="">Select a service</option>
-                  <option value="ai-ml">AI & Machine Learning</option>
-                  <option value="cloud">Cloud Solutions</option>
-                  <option value="cybersecurity">Cyber Security</option>
-                  <option value="web3">Web3 & Blockchain</option>
-                  <option value="mobile">Mobile Development</option>
-                  <option value="consulting">IT Consulting</option>
-                  <option value="multiple">Multiple Services</option>
-                  <option value="not-sure">Not Sure Yet</option>
-                </select>
+                <textarea 
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    borderRadius: '4px',
+                    border: '1px solid #4a5568',
+                    background: '#2d3748',
+                    color: 'white',
+                    minHeight: '120px'
+                  }}
+                  placeholder="Tell us about your project..."
+                />
               </div>
 
-              <div>
-                <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">
-                  Project Budget (USD)
-                </label>
-                <select
-                  id="budget"
-                  name="budget"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                >
-                  <option value="">Select budget range</option>
-                  <option value="5k-10k">$5,000 - $10,000</option>
-                  <option value="10k-25k">$10,000 - $25,000</option>
-                  <option value="25k-50k">$25,000 - $50,000</option>
-                  <option value="50k-100k">$50,000 - $100,000</option>
-                  <option value="100k+">$100,000+</option>
-                  <option value="not-sure">Not Sure</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Project Details *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="Tell us about your project, goals, timeline, and any specific requirements..."
-                ></textarea>
-              </div>
-
-              <button
+              <button 
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+                style={{
+                  width: '100%',
+                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                  color: 'white',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  border: 'none',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
               >
                 Send Message
               </button>
             </form>
-          </div>
-
-          {/* Contact Information */}
-          <div className="space-y-8">
-            {/* Quick Info */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Why Choose TOOSII TECH?
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-blue-600 text-sm font-bold">✓</span>
-                  </div>
-                  <p className="text-gray-700">Expert team with 5+ years of experience</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-blue-600 text-sm font-bold">✓</span>
-                  </div>
-                  <p className="text-gray-700">Cutting-edge technology solutions</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-blue-600 text-sm font-bold">✓</span>
-                  </div>
-                  <p className="text-gray-700">Competitive pricing and flexible engagement models</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-blue-600 text-sm font-bold">✓</span>
-                  </div>
-                  <p className="text-gray-700">Dedicated project management and support</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Details */}
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-6">Get In Touch</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-lg">📧</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Email</p>
-                    <a href="mailto:toosiitechcompany@gmail.com" className="text-blue-100 hover:text-white transition-colors">
-                      toosiitechcompany@gmail.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-lg">📞</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Phone</p>
-                    <a href="tel:+254748340864" className="text-blue-100 hover:text-white transition-colors">
-                      +254 748 340 864
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-lg">📍</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Location</p>
-                    <p className="text-blue-100">Nairobi, Kenya</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <span className="text-lg">🕒</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Business Hours</p>
-                    <p className="text-blue-100">Mon - Fri: 9:00 AM - 6:00 PM EAT</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Response */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Quick Response Guarantee
-              </h3>
-              <p className="text-gray-700 mb-4">
-                We typically respond to all inquiries within 2-4 hours during business hours.
-              </p>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p className="text-green-800 font-semibold text-sm">
-                  🚀 Next Steps: Initial consultation → Project scoping → Proposal → Development
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
