@@ -371,7 +371,7 @@ export default function CyberSecurity() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with Inlined Email */}
       <section style={{
         padding: '4rem 2rem',
         background: 'linear-gradient(135deg, #1e40af 0%, #7e22ce 100%)',
@@ -393,6 +393,34 @@ export default function CyberSecurity() {
             Don't wait for a security breach to take action. Protect your business 
             with our comprehensive cyber security solutions.
           </p>
+          
+          {/* Inlined Company Email */}
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            padding: '1.5rem',
+            borderRadius: '12px',
+            marginBottom: '2rem',
+            border: '1px solid rgba(255, 255, 255, 0.2)'
+          }}>
+            <h3 style={{ color: 'white', marginBottom: '1rem' }}>Contact Our Security Team</h3>
+            <p style={{ color: '#e2e8f0', marginBottom: '0.5rem' }}>
+              Email us directly at:{' '}
+              <a 
+                href="mailto:toosiitechcompany@gmail.com"
+                style={{
+                  color: '#60a5fa',
+                  fontWeight: '600',
+                  textDecoration: 'none'
+                }}
+              >
+                toosiitechcompany@gmail.com
+              </a>
+            </p>
+            <p style={{ color: '#cbd5e1', fontSize: '0.9rem' }}>
+              We typically respond within 2 hours during business hours
+            </p>
+          </div>
+
           <div style={{
             display: 'flex',
             gap: '1rem',
@@ -426,35 +454,20 @@ export default function CyberSecurity() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{
+      {/* Simple Bottom Bar */}
+      <div style={{
         background: '#0f172a',
         padding: '2rem',
         textAlign: 'center',
         borderTop: '1px solid #334155'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p style={{ color: '#64748b', marginBottom: '1rem' }}>
-            © {new Date().getFullYear()} TOOSII TECH COMPANY. All rights reserved.
-          </p>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '2rem',
-            flexWrap: 'wrap'
-          }}>
-            <Link href="/privacy-policy" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-service" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              Terms of Service
-            </Link>
-            <Link href="/services" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-              All Services
-            </Link>
-          </div>
-        </div>
-      </footer>
+        <p style={{ color: '#64748b', marginBottom: '0.5rem' }}>
+          © {new Date().getFullYear()} TOOSII TECH COMPANY
+        </p>
+        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+          Comprehensive Cyber Security Solutions
+        </p>
+      </div>
     </div>
   )
 }
