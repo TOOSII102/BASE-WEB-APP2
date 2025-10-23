@@ -2,244 +2,110 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div>
-      {/* Header */}
-      <header style={{
-        background: 'rgba(26, 32, 44, 0.95)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid #2d3748',
-        padding: '1rem 2rem',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          {/* Logo */}
-          <Link href="/" style={{
-            fontSize: '1.5rem',
-            fontWeight: 800,
-            color: 'white',
-            textDecoration: 'none',
-            background: 'linear-gradient(45deg, #667eea, #764ba2)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            TOOSII TECH
-          </Link>
-
-          {/* Navigation */}
-          <nav style={{
-            display: 'flex',
-            gap: '2rem',
-            alignItems: 'center'
-          }}>
-            <Link href="/" style={{
-              color: 'white',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color 0.3s ease'
-            }}>
-              Home
-            </Link>
-            <Link href="/services" style={{
-              color: '#cbd5e0',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color 0.3s ease'
-            }}>
-              Services
-            </Link>
-            <Link href="/about" style={{
-              color: '#cbd5e0',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color 0.3s ease'
-            }}>
-              About
-            </Link>
-            <Link href="/contact" style={{
-              color: '#cbd5e0',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color 0.3s ease'
-            }}>
-              Contact
-            </Link>
-            
-            {/* Get Started Button in Header */}
-            <Link 
-              href="/contact"
-              style={{
-                background: 'linear-gradient(45deg, #667eea, #764ba2)',
-                color: 'white',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '6px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                transition: 'all 0.3s ease',
-                marginLeft: '1rem'
-              }}
-            >
-              Get Started
-            </Link>
-          </nav>
-        </div>
-      </header>
-
+    <div style={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      color: 'white'
+    }}>
       {/* Hero Section */}
       <section style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
+        padding: '6rem 2rem',
         textAlign: 'center',
-        padding: '2rem'
+        background: 'linear-gradient(135deg, #1e40af 0%, #7e22ce 100%)'
       }}>
-        <div style={{ maxWidth: '800px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h1 style={{
             fontSize: '3.5rem',
-            fontWeight: 800,
+            fontWeight: 'bold',
             marginBottom: '1.5rem',
-            background: 'linear-gradient(45deg, #667eea, #764ba2)',
+            background: 'linear-gradient(45deg, #60a5fa, #a78bfa)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            color: 'transparent'
           }}>
-            Transform Your Business with Technology
+            TOOSII TECH COMPANY
           </h1>
           <p style={{
-            fontSize: '1.25rem',
-            color: '#cbd5e0',
-            marginBottom: '3rem',
+            fontSize: '1.5rem',
+            color: '#e2e8f0',
+            marginBottom: '2rem',
             lineHeight: 1.6
           }}>
-            TOOSII TECH delivers cutting-edge AI, cloud, cybersecurity, and digital solutions 
-            to drive your business growth and innovation in Kenya and beyond.
+            Pioneering the future of digital transformation through innovative 
+            technology solutions and cutting-edge development services.
           </p>
-          
-          {/* Get Started CTA Buttons */}
           <div style={{
             display: 'flex',
-            gap: '1.5rem',
+            gap: '1rem',
             justifyContent: 'center',
-            flexWrap: 'wrap',
-            marginBottom: '3rem'
+            flexWrap: 'wrap'
           }}>
-            <Link 
-              href="/contact"
-              style={{
-                display: 'inline-block',
-                background: 'linear-gradient(45deg, #667eea, #764ba2)',
-                color: 'white',
-                padding: '1rem 2.5rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '1.125rem',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
-              }}
-            >
-              Get Started Today
+            <Link href="/services" style={{
+              background: '#3b82f6',
+              color: 'white',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '1.1rem',
+              transition: 'all 0.3s ease'
+            }}>
+              Explore Our Services
             </Link>
-            <Link 
-              href="/services"
-              style={{
-                display: 'inline-block',
-                background: 'transparent',
-                color: 'white',
-                padding: '1rem 2.5rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '1.125rem',
-                border: '2px solid #667eea',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              View Our Services
+            <Link href="/contact" style={{
+              background: 'transparent',
+              color: 'white',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              border: '2px solid white',
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '1.1rem',
+              transition: 'all 0.3s ease'
+            }}>
+              Get Started
             </Link>
-          </div>
-
-          {/* Trust Indicators */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '3rem',
-            flexWrap: 'wrap',
-            color: '#a0aec0',
-            fontSize: '0.9rem'
-          }}>
-            <div>✓ 24/7 Support</div>
-            <div>✓ Expert Team</div>
-            <div>✓ Custom Solutions</div>
-            <div>✓ Fast Delivery</div>
           </div>
         </div>
       </section>
 
-      {/* Services Preview Section */}
-      <section style={{
-        padding: '5rem 2rem',
-        background: '#f7fafc'
-      }}>
+      {/* Services Overview */}
+      <section style={{ padding: '4rem 2rem' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2 style={{
+            textAlign: 'center',
             fontSize: '2.5rem',
-            fontWeight: 700,
-            textAlign: 'center',
-            marginBottom: '1rem',
-            color: '#1a202c'
-          }}>
-            Our Services
-          </h2>
-          <p style={{
-            fontSize: '1.125rem',
-            textAlign: 'center',
-            color: '#4a5568',
             marginBottom: '3rem',
-            maxWidth: '600px',
-            margin: '0 auto 3rem'
+            color: 'white'
           }}>
-            Comprehensive technology solutions tailored to your business needs
-          </p>
-
+            Our Technology Services
+          </h2>
+          
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
-            marginBottom: '3rem'
+            gap: '2rem'
           }}>
             {/* AI & ML Service */}
             <div style={{
-              background: 'white',
+              background: 'rgba(30, 41, 59, 0.8)',
               padding: '2rem',
               borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              border: '1px solid #334155',
               textAlign: 'center',
               transition: 'transform 0.3s ease'
             }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🤖</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
                 AI & Machine Learning
               </h3>
-              <p style={{ color: '#4a5568', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                Intelligent solutions powered by advanced AI algorithms and machine learning models.
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Intelligent solutions powered by artificial intelligence and machine learning algorithms.
               </p>
               <Link href="/services/ai-ml" style={{
-                color: '#667eea',
-                fontWeight: 500,
-                textDecoration: 'none'
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
               }}>
                 Learn More →
               </Link>
@@ -247,302 +113,379 @@ export default function Home() {
 
             {/* Cloud Solutions */}
             <div style={{
-              background: 'white',
+              background: 'rgba(30, 41, 59, 0.8)',
               padding: '2rem',
               borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              border: '1px solid #334155',
               textAlign: 'center',
               transition: 'transform 0.3s ease'
             }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>☁️</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
                 Cloud Solutions
               </h3>
-              <p style={{ color: '#4a5568', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                Scalable cloud infrastructure, migration, and management services for modern businesses.
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Scalable and secure cloud infrastructure and migration services.
               </p>
               <Link href="/services/cloud" style={{
-                color: '#667eea',
-                fontWeight: 500,
-                textDecoration: 'none'
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
               }}>
                 Learn More →
               </Link>
             </div>
 
-            {/* Cybersecurity */}
+            {/* Cyber Security */}
             <div style={{
-              background: 'white',
+              background: 'rgba(30, 41, 59, 0.8)',
               padding: '2rem',
               borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+              border: '1px solid #334155',
               textAlign: 'center',
               transition: 'transform 0.3s ease'
             }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔒</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
                 Cyber Security
               </h3>
-              <p style={{ color: '#4a5568', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                Comprehensive security solutions to protect your digital assets and ensure business continuity.
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Comprehensive security solutions to protect your digital assets.
               </p>
               <Link href="/services/cybersecurity" style={{
-                color: '#667eea',
-                fontWeight: 500,
-                textDecoration: 'none'
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
+              }}>
+                Learn More →
+              </Link>
+            </div>
+
+            {/* Web3 & Blockchain */}
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.8)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '1px solid #334155',
+              textAlign: 'center',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⛓️</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
+                Web3 & Blockchain
+              </h3>
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Decentralized applications and blockchain solutions.
+              </p>
+              <Link href="/services/web3" style={{
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
+              }}>
+                Learn More →
+              </Link>
+            </div>
+
+            {/* Mobile Development */}
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.8)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '1px solid #334155',
+              textAlign: 'center',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📱</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
+                Mobile Development
+              </h3>
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Cross-platform mobile applications for iOS and Android.
+              </p>
+              <Link href="/services/mobile" style={{
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
+              }}>
+                Learn More →
+              </Link>
+            </div>
+
+            {/* IT Consulting */}
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.8)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '1px solid #334155',
+              textAlign: 'center',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💼</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>
+                IT Consulting
+              </h3>
+              <p style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}>
+                Strategic technology consulting and digital transformation.
+              </p>
+              <Link href="/services/consulting" style={{
+                color: '#60a5fa',
+                textDecoration: 'none',
+                fontWeight: '600'
               }}>
                 Learn More →
               </Link>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div style={{ textAlign: 'center' }}>
-            <Link 
-              href="/services"
-              style={{
-                display: 'inline-block',
-                background: '#667eea',
+      {/* About Section */}
+      <section style={{ 
+        padding: '4rem 2rem',
+        background: 'rgba(15, 23, 42, 0.5)'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: '4rem',
+            alignItems: 'center'
+          }}>
+            <div>
+              <h2 style={{
+                fontSize: '2.5rem',
+                marginBottom: '1.5rem',
+                color: 'white'
+              }}>
+                About TOOSII TECH
+              </h2>
+              <p style={{
+                color: '#cbd5e1',
+                lineHeight: 1.8,
+                marginBottom: '1.5rem',
+                fontSize: '1.1rem'
+              }}>
+                We are a forward-thinking technology company based in Nairobi, Kenya, 
+                dedicated to driving digital transformation through innovative solutions. 
+                Our team of experts specializes in cutting-edge technologies that help 
+                businesses thrive in the digital age.
+              </p>
+              <p style={{
+                color: '#cbd5e1',
+                lineHeight: 1.8,
+                marginBottom: '2rem',
+                fontSize: '1.1rem'
+              }}>
+                From AI-powered applications to secure cloud infrastructure, we deliver 
+                comprehensive technology services tailored to your unique business needs.
+              </p>
+              <Link href="/about" style={{
+                background: 'linear-gradient(135deg, #667eea, #764ba2)',
                 color: 'white',
                 padding: '1rem 2rem',
                 borderRadius: '8px',
                 textDecoration: 'none',
-                fontWeight: 600,
-                transition: 'all 0.3s ease'
-              }}
-            >
-              View All Services
-            </Link>
+                fontWeight: '600'
+              }}>
+                Learn More About Us
+              </Link>
+            </div>
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.8)',
+              padding: '2rem',
+              borderRadius: '12px',
+              border: '1px solid #334155'
+            }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                marginBottom: '1.5rem',
+                color: '#60a5fa'
+              }}>
+                Why Choose Us?
+              </h3>
+              <ul style={{ color: '#cbd5e1', lineHeight: 2 }}>
+                <li>✅ Expert team with proven track record</li>
+                <li>✅ Cutting-edge technology solutions</li>
+                <li>✅ Customized approach for each client</li>
+                <li>✅ 24/7 support and maintenance</li>
+                <li>✅ Competitive pricing and flexible engagement</li>
+                <li>✅ Fast project delivery and deployment</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section style={{
-        padding: '5rem 2rem',
-        background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)',
-        color: 'white'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{
-            fontSize: '2.5rem',
-            fontWeight: 700,
-            marginBottom: '3rem'
-          }}>
-            Why Choose TOOSII TECH?
-          </h2>
-          
+      {/* Stats Section */}
+      <section style={{ padding: '4rem 2rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: '2rem',
-            textAlign: 'left'
+            textAlign: 'center'
           }}>
-            <div style={{ padding: '2rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', color: '#667eea' }}>
-                🎯 Expert Team
-              </h3>
-              <p style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-                Our team consists of experienced professionals with expertise in cutting-edge technologies.
-              </p>
+            <div>
+              <div style={{
+                fontSize: '3rem',
+                fontWeight: 'bold',
+                color: '#60a5fa',
+                marginBottom: '0.5rem'
+              }}>50+</div>
+              <div style={{ color: '#cbd5e1' }}>Projects Completed</div>
             </div>
-            
-            <div style={{ padding: '2rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', color: '#667eea' }}>
-                ⚡ Fast Delivery
-              </h3>
-              <p style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-                We deliver high-quality solutions quickly without compromising on quality or performance.
-              </p>
+            <div>
+              <div style={{
+                fontSize: '3rem',
+                fontWeight: 'bold',
+                color: '#60a5fa',
+                marginBottom: '0.5rem'
+              }}>98%</div>
+              <div style={{ color: '#cbd5e1' }}>Client Satisfaction</div>
             </div>
-            
-            <div style={{ padding: '2rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', color: '#667eea' }}>
-                💼 Custom Solutions
-              </h3>
-              <p style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-                Every solution is tailored to your specific business needs and requirements.
-              </p>
+            <div>
+              <div style={{
+                fontSize: '3rem',
+                fontWeight: 'bold',
+                color: '#60a5fa',
+                marginBottom: '0.5rem'
+              }}>24/7</div>
+              <div style={{ color: '#cbd5e1' }}>Support Available</div>
             </div>
-            
-            <div style={{ padding: '2rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', color: '#667eea' }}>
-                🌍 Local Presence
-              </h3>
-              <p style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-                Based in Nairobi, Kenya, we understand the local market and business landscape.
-              </p>
+            <div>
+              <div style={{
+                fontSize: '3rem',
+                fontWeight: 'bold',
+                color: '#60a5fa',
+                marginBottom: '0.5rem'
+              }}>2H</div>
+              <div style={{ color: '#cbd5e1' }}>Average Response Time</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* Get in Touch CTA Section */}
       <section style={{
-        padding: '5rem 2rem',
+        padding: '4rem 2rem',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
       }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{
             fontSize: '2.5rem',
-            fontWeight: 700,
-            marginBottom: '1.5rem'
+            marginBottom: '1rem'
           }}>
-            Ready to Get Started?
+            Get in Touch Across the Web
           </h2>
           <p style={{
-            fontSize: '1.125rem',
-            marginBottom: '2.5rem',
-            lineHeight: 1.6,
-            color: '#e2e8f0'
+            fontSize: '1.25rem',
+            marginBottom: '2rem',
+            opacity: 0.9
           }}>
-            Contact us today for a free consultation and discover how our technology 
-            solutions can transform your business.
+            Ready to transform your business with cutting-edge technology? 
+            Contact us directly and let's build something amazing together.
           </p>
+          
           <div style={{
             display: 'flex',
-            gap: '1.5rem',
+            gap: '1rem',
             justifyContent: 'center',
             flexWrap: 'wrap'
           }}>
+            <a 
+              href="mailto:toosiitechcompany@gmail.com"
+              style={{
+                background: 'white',
+                color: '#667eea',
+                padding: '1rem 2rem',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: '1.1rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              📧 Email Us Directly
+            </a>
             <Link 
               href="/contact"
               style={{
-                display: 'inline-block',
-                background: 'white',
-                color: '#667eea',
-                padding: '1rem 2.5rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '1.125rem',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Get Free Consultation
-            </Link>
-            <Link 
-              href="tel:+254748340864"
-              style={{
-                display: 'inline-block',
                 background: 'transparent',
                 color: 'white',
-                padding: '1rem 2.5rem',
+                padding: '1rem 2rem',
                 borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '1.125rem',
                 border: '2px solid white',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: '1.1rem',
                 transition: 'all 0.3s ease'
               }}
             >
-              Call Now
+              📞 More Contact Options
             </Link>
           </div>
           
-          {/* Contact Info */}
-          <div style={{
-            marginTop: '3rem',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '2rem',
-            flexWrap: 'wrap',
-            fontSize: '0.9rem',
-            color: '#e2e8f0'
+          <p style={{
+            marginTop: '1.5rem',
+            opacity: 0.8,
+            fontSize: '0.9rem'
           }}>
-            <div>
-              <strong>Email:</strong>{' '}
-              <a href="mailto:toosiitechcompany@gmail.com" style={{ color: 'white' }}>
-                toosiitechcompany@gmail.com
-              </a>
-            </div>
-            <div>
-              <strong>Phone:</strong>{' '}
-              <a href="tel:+254748340864" style={{ color: 'white' }}>
-                +254 748 340 864
-              </a>
-            </div>
-            <div>
-              <strong>Location:</strong> Nairobi, Kenya
-            </div>
-          </div>
+            We respond to all inquiries within 2 hours during business hours
+          </p>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{
-        background: '#1a202c',
-        color: 'white',
-        padding: '3rem 2rem',
-        borderTop: '1px solid #2d3748'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '2rem'
-        }}>
-          {/* Company Info */}
-          <div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>
-              TOOSII TECH
-            </h3>
-            <p style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-              Pioneering the future of digital transformation through innovative technology solutions.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>
-              Quick Links
-            </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <Link href="/" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Home</Link>
-              <Link href="/services" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Services</Link>
-              <Link href="/about" style={{ color: '#cbd5e0', textDecoration: 'none' }}>About</Link>
-              <Link href="/contact" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Contact</Link>
-            </div>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>
-              Legal
-            </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <Link href="/privacy-policy" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Privacy Policy</Link>
-              <Link href="/terms-of-service" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Terms of Service</Link>
-              <Link href="/cookies" style={{ color: '#cbd5e0', textDecoration: 'none' }}>Cookie Policy</Link>
-            </div>
-          </div>
-
-          {/* Contact Footer */}
-          <div>
-            <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem' }}>
-              Contact
-            </h4>
-            <div style={{ color: '#cbd5e0', lineHeight: 1.6 }}>
-              <div>toosiitechcompany@gmail.com</div>
-              <div>+254 748 340 864</div>
-              <div>Nairobi, Kenya</div>
-            </div>
+      {/* Final CTA */}
+      <section style={{ padding: '4rem 2rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <h2 style={{
+            fontSize: '2rem',
+            marginBottom: '1rem',
+            color: 'white'
+          }}>
+            Ready to Start Your Project?
+          </h2>
+          <p style={{
+            color: '#cbd5e1',
+            marginBottom: '2rem',
+            fontSize: '1.1rem'
+          }}>
+            Let's discuss how we can help transform your business with innovative technology solutions.
+          </p>
+          <div style={{
+            display: 'flex',
+            gap: '1rem',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
+            <Link href="/contact" style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              color: 'white',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '1.1rem'
+            }}>
+              Get Free Consultation
+            </Link>
+            <a href="tel:+254748340864" style={{
+              background: 'transparent',
+              color: '#60a5fa',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              border: '2px solid #60a5fa',
+              textDecoration: 'none',
+              fontWeight: '600',
+              fontSize: '1.1rem'
+            }}>
+              Call: +254 748 340 864
+            </a>
           </div>
         </div>
-        
-        {/* Copyright */}
-        <div style={{
-          marginTop: '3rem',
-          paddingTop: '2rem',
-          borderTop: '1px solid #2d3748',
-          textAlign: 'center',
-          color: '#a0aec0'
-        }}>
-          <p>© {new Date().getFullYear()} TOOSII TECH COMPANY. All rights reserved.</p>
-        </div>
-      </footer>
+      </section>
     </div>
   )
 }
