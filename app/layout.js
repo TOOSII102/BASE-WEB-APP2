@@ -1,11 +1,16 @@
+import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header/Header'
-import Footer from '@/components/Footer/Footer'
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata = {
   title: 'TOOSII TECH - Digital Transformation & Technology Solutions',
   description: 'Pioneering the future of digital transformation through innovative technology solutions including AI, Cloud, Cybersecurity, Web3, and Mobile Development.',
-  keywords: 'technology, AI, cloud, cybersecurity, web3, mobile development, Kenya, Nairobi, digital transformation',
+  keywords: 'technology, AI, cloud, cybersecurity, web3, mobile development, Kenya, Nairobi, TOOSII TECH',
   authors: [{ name: 'TOOSII TECH COMPANY' }],
   creator: 'TOOSII TECH COMPANY',
   publisher: 'TOOSII TECH COMPANY',
@@ -33,117 +38,38 @@ export const metadata = {
     creator: '@austin254ke',
     images: ['/twitter-image.jpg'],
   },
-  verification: {
-    google: 'your-google-verification-code', // Add your Google Search Console code
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
   },
+  themeColor: '#667eea',
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head>
-        {/* Preload critical fonts */}
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        
-        {/* Favicon */}
-        <link
-          rel="icon"
-          href="/favicon.ico"
-          type="image/x-icon"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        
-        {/* Canonical URL */}
-        <link
-          rel="canonical"
-          href="https://toosiitech.com"
-        />
-        
-        {/* Theme color for mobile browsers */}
-        <meta
-          name="theme-color"
-          content="#667eea"
-        />
-        
-        {/* Viewport for responsive design */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5"
-        />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#667eea" />
       </head>
-      <body>
+      <body className={inter.className}>
         {/* Skip to main content for accessibility */}
-        <a
-          href="#main-content"
-          className="skip-to-main"
-          style={{
-            position: 'absolute',
-            top: '-40px',
-            left: '6px',
-            background: '#667eea',
-            color: 'white',
-            padding: '8px',
-            borderRadius: '4px',
-            textDecoration: 'none',
-            zIndex: 10000,
-            transition: 'top 0.3s ease',
-          }}
-          onFocus={() => {
-            const element = document.querySelector('.skip-to-main');
-            if (element) {
-              element.style.top = '6px';
-            }
-          }}
-          onBlur={() => {
-            const element = document.querySelector('.skip-to-main');
-            if (element) {
-              element.style.top = '-40px';
-            }
-          }}
-        >
+        <a href="#main-content" className="skip-to-main">
           Skip to main content
         </a>
-
-        {/* Header Component */}
-        <Header />
         
-        {/* Main Content */}
-        <main id="main-content">
+        {/* Main content wrapper */}
+        <div id="main-content">
           {children}
-        </main>
-        
-        {/* Footer Component */}
-        <Footer />
-        
-        {/* Schema.org structured data */}
+        </div>
+
+        {/* Structured data for SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -158,15 +84,14 @@ export default function RootLayout({ children }) {
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Nairobi",
-                "addressCountry": "KE"
+                "addressCountry": "Kenya"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+254-748-340-864",
                 "contactType": "customer service",
                 "email": "toosiitechcompany@gmail.com",
-                "areaServed": "KE",
-                "availableLanguage": "en"
+                "availableLanguage": ["English", "Swahili"]
               },
               "sameAs": [
                 "https://twitter.com/austin254ke",
