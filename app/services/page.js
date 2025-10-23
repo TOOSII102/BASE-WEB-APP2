@@ -1,60 +1,56 @@
+'use client'
+
 import Link from 'next/link'
 
 export default function Services() {
   const services = [
     {
       id: 1,
-      title: 'AI & Machine Learning',
-      description: 'Intelligent solutions powered by artificial intelligence and machine learning algorithms for predictive analytics and automation.',
+      name: 'AI & Machine Learning',
       icon: '🤖',
+      description: 'Intelligent solutions powered by artificial intelligence and machine learning algorithms for your business.',
       features: ['Predictive Analytics', 'Natural Language Processing', 'Computer Vision', 'AI Chatbots'],
-      link: '/services/ai-ml',
-      gradient: 'from-purple-500 to-pink-500'
+      link: '/services/ai-ml'
     },
     {
       id: 2,
-      title: 'Cloud Solutions',
-      description: 'Scalable and secure cloud infrastructure, migration services, and DevOps solutions for modern businesses.',
+      name: 'Cloud Solutions',
       icon: '☁️',
+      description: 'Scalable and secure cloud infrastructure, migration, and management services for modern businesses.',
       features: ['Cloud Migration', 'Infrastructure Setup', 'DevOps', 'Cloud Security'],
-      link: '/services/cloud',
-      gradient: 'from-blue-500 to-cyan-500'
+      link: '/services/cloud'
     },
     {
       id: 3,
-      title: 'Cyber Security',
-      description: 'Comprehensive security solutions to protect your digital assets and ensure data privacy compliance.',
+      name: 'Cyber Security',
       icon: '🔒',
+      description: 'Comprehensive security solutions to protect your digital assets and ensure business continuity.',
       features: ['Threat Detection', 'Vulnerability Assessment', 'Security Audits', 'Incident Response'],
-      link: '/services/cybersecurity',
-      gradient: 'from-green-500 to-emerald-500'
+      link: '/services/cybersecurity'
     },
     {
       id: 4,
-      title: 'Web3 & Blockchain',
-      description: 'Decentralized applications, smart contracts, and blockchain solutions for the future of the internet.',
+      name: 'Web3 & Blockchain',
       icon: '⛓️',
+      description: 'Decentralized applications, smart contracts, and blockchain solutions for the future of web.',
       features: ['Smart Contracts', 'DApp Development', 'NFT Solutions', 'DeFi Platforms'],
-      link: '/services/web3',
-      gradient: 'from-orange-500 to-red-500'
+      link: '/services/web3'
     },
     {
       id: 5,
-      title: 'Mobile Development',
-      description: 'Native and cross-platform mobile applications for iOS and Android with exceptional user experiences.',
+      name: 'Mobile Development',
       icon: '📱',
-      features: ['iOS Development', 'Android Development', 'React Native', 'Flutter'],
-      link: '/services/mobile',
-      gradient: 'from-indigo-500 to-purple-500'
+      description: 'Cross-platform mobile applications that deliver exceptional user experiences across all devices.',
+      features: ['iOS & Android', 'React Native', 'Flutter', 'Progressive Web Apps'],
+      link: '/services/mobile'
     },
     {
       id: 6,
-      title: 'IT Consulting',
-      description: 'Strategic technology consulting to optimize your business processes and digital transformation journey.',
+      name: 'IT Consulting',
       icon: '💼',
-      features: ['Digital Strategy', 'Technology Audit', 'Process Optimization', 'IT Infrastructure'],
-      link: '/services/consulting',
-      gradient: 'from-gray-600 to-gray-800'
+      description: 'Strategic technology consulting to optimize your business processes and digital transformation.',
+      features: ['Digital Strategy', 'Technology Audit', 'Process Optimization', 'IT Roadmapping'],
+      link: '/services/consulting'
     }
   ]
 
@@ -62,203 +58,231 @@ export default function Services() {
     <div style={{ 
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)',
-      color: 'white'
+      color: 'white',
+      padding: '4rem 0' 
     }}>
-      {/* Header */}
+      {/* Header Section */}
       <div style={{ 
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        padding: '4rem 2rem',
-        textAlign: 'center'
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        padding: '0 2rem',
+        textAlign: 'center',
+        marginBottom: '4rem'
       }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ 
-            fontSize: '3.5rem', 
-            fontWeight: 'bold', 
-            marginBottom: '1rem',
-            background: 'linear-gradient(45deg, #fff, #e2e8f0)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            color: 'transparent'
-          }}>
-            Our Services
-          </h1>
-          <p style={{ 
-            fontSize: '1.25rem', 
-            color: '#e2e8f0',
-            maxWidth: '600px',
-            margin: '0 auto',
-            lineHeight: '1.6'
-          }}>
-            Cutting-edge technology solutions to drive your digital transformation and business growth
-          </p>
-        </div>
+        <h1 style={{ 
+          fontSize: '3.5rem', 
+          fontWeight: 800, 
+          marginBottom: '1rem',
+          background: 'linear-gradient(45deg, #667eea, #764ba2)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          Our Services
+        </h1>
+        <p style={{ 
+          fontSize: '1.25rem', 
+          color: '#cbd5e0', 
+          maxWidth: '600px', 
+          margin: '0 auto',
+          lineHeight: 1.6
+        }}>
+          Cutting-edge technology solutions designed to drive your business forward in the digital age.
+        </p>
       </div>
 
       {/* Services Grid */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
-        padding: '4rem 2rem' 
+        padding: '0 2rem' 
       }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-          gap: '2rem'
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
+          gap: '2rem' 
         }}>
           {services.map((service) => (
-            <div key={service.id} style={{
-              background: 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)',
-              borderRadius: '16px',
-              padding: '2rem',
-              border: '1px solid #4a5568',
-              transition: 'all 0.3s ease',
-              cursor: 'pointer',
-              position: 'relative',
-              overflow: 'hidden'
-            }} 
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-8px)'
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.boxShadow = 'none'
-            }}
+            <div 
+              key={service.id}
+              style={{ 
+                background: 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)',
+                padding: '2.5rem',
+                borderRadius: '16px',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                border: '1px solid #4a5568',
+                transition: 'all 0.3s ease',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
             >
-              <Link href={service.link} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '1.5rem'
-                }}>
-                  <span style={{
-                    fontSize: '3rem',
-                    marginRight: '1rem'
-                  }}>{service.icon}</span>
-                  <h3 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    color: 'white',
-                    margin: 0
-                  }}>{service.title}</h3>
-                </div>
-                
-                <p style={{
-                  color: '#cbd5e0',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem'
-                }}>{service.description}</p>
+              {/* Service Icon */}
+              <div style={{ 
+                fontSize: '3rem', 
+                marginBottom: '1.5rem',
+                textAlign: 'center'
+              }}>
+                {service.icon}
+              </div>
 
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '0.5rem',
-                  marginBottom: '2rem'
+              {/* Service Name */}
+              <h3 style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: 700, 
+                marginBottom: '1rem',
+                textAlign: 'center',
+                color: 'white'
+              }}>
+                {service.name}
+              </h3>
+
+              {/* Service Description */}
+              <p style={{ 
+                color: '#cbd5e0', 
+                lineHeight: 1.6,
+                marginBottom: '1.5rem',
+                textAlign: 'center'
+              }}>
+                {service.description}
+              </p>
+
+              {/* Features List */}
+              <div style={{ marginBottom: '2rem' }}>
+                <h4 style={{ 
+                  fontSize: '1rem', 
+                  fontWeight: 600, 
+                  marginBottom: '0.75rem',
+                  color: '#e2e8f0'
+                }}>
+                  Key Features:
+                </h4>
+                <ul style={{ 
+                  color: '#cbd5e0', 
+                  paddingLeft: '1.25rem',
+                  lineHeight: 1.5
                 }}>
                   {service.features.map((feature, index) => (
-                    <span key={index} style={{
-                      background: 'rgba(102, 126, 234, 0.2)',
-                      color: '#cbd5e0',
-                      padding: '0.5rem 1rem',
-                      borderRadius: '20px',
-                      fontSize: '0.875rem',
-                      border: '1px solid #4a5568'
-                    }}>
+                    <li key={index} style={{ marginBottom: '0.5rem' }}>
                       {feature}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
+              </div>
 
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}>
-                  <span style={{
-                    color: '#667eea',
-                    fontWeight: '600',
-                    fontSize: '0.9rem'
-                  }}>Explore Service →</span>
-                </div>
-              </Link>
+              {/* Learn More Link */}
+              <div style={{ textAlign: 'center' }}>
+                <Link 
+                  href={service.link}
+                  style={{ 
+                    display: 'inline-block',
+                    background: 'linear-gradient(45deg, #667eea, #764ba2)',
+                    color: 'white',
+                    padding: '0.75rem 2rem',
+                    borderRadius: '8px',
+                    textDecoration: 'none',
+                    fontWeight: 600,
+                    transition: 'all 0.3s ease',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Learn More →
+                </Link>
+              </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* CTA Section */}
-        <div style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: '16px',
-          padding: '3rem',
-          textAlign: 'center',
-          marginTop: '4rem'
+      {/* CTA Section */}
+      <div style={{ 
+        maxWidth: '800px', 
+        margin: '4rem auto 0', 
+        padding: '3rem 2rem',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: '16px',
+        textAlign: 'center'
+      }}>
+        <h2 style={{ 
+          fontSize: '2rem', 
+          fontWeight: 700, 
+          marginBottom: '1rem',
+          color: 'white'
         }}>
-          <h2 style={{
-            fontSize: '2.5rem',
-            fontWeight: 'bold',
-            marginBottom: '1rem',
-            color: 'white'
-          }}>
-            Ready to Transform Your Business?
-          </h2>
-          <p style={{
-            fontSize: '1.125rem',
-            color: '#e2e8f0',
-            marginBottom: '2rem',
-            maxWidth: '600px',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}>
-            Let's discuss how our technology solutions can drive your success
-          </p>
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            justifyContent: 'center',
-            flexWrap: 'wrap'
-          }}>
-            <Link href="/contact" style={{
+          Ready to Transform Your Business?
+        </h2>
+        <p style={{ 
+          fontSize: '1.125rem', 
+          color: '#e2e8f0', 
+          marginBottom: '2rem',
+          lineHeight: 1.6
+        }}>
+          Let's discuss how our technology solutions can drive your business forward.
+        </p>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link 
+            href="/contact"
+            style={{ 
+              display: 'inline-block',
               background: 'white',
               color: '#667eea',
-              padding: '1rem 2rem',
+              padding: '0.75rem 2rem',
               borderRadius: '8px',
               textDecoration: 'none',
-              fontWeight: '600',
+              fontWeight: 600,
               transition: 'all 0.3s ease'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f7fafc'
-              e.currentTarget.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'white'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }}
-            >
-              Get Started
-            </Link>
-            <Link href="/contact" style={{
+          >
+            Get Started
+          </Link>
+          <Link 
+            href="/about"
+            style={{ 
+              display: 'inline-block',
               background: 'transparent',
               color: 'white',
-              padding: '1rem 2rem',
+              padding: '0.75rem 2rem',
               borderRadius: '8px',
               textDecoration: 'none',
-              fontWeight: '600',
+              fontWeight: 600,
               border: '2px solid white',
               transition: 'all 0.3s ease'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'white'
-              e.currentTarget.style.color = '#667eea'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = 'white'
-            }}
-            >
-              Schedule Consultation
-            </Link>
-          </div>
+          >
+            Learn About Us
+          </Link>
+        </div>
+      </div>
+
+      {/* Technology Stack */}
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '4rem auto 0', 
+        padding: '0 2rem',
+        textAlign: 'center'
+      }}>
+        <h3 style={{ 
+          fontSize: '1.5rem', 
+          fontWeight: 600, 
+          marginBottom: '2rem',
+          color: '#e2e8f0'
+        }}>
+          Technologies We Work With
+        </h3>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: '2rem',
+          flexWrap: 'wrap',
+          color: '#cbd5e0',
+          fontSize: '1.125rem'
+        }}>
+          <span>React & Next.js</span>
+          <span>Node.js & Python</span>
+          <span>AWS & Azure</span>
+          <span>TensorFlow & PyTorch</span>
+          <span>Solidity & Web3</span>
+          <span>React Native & Flutter</span>
         </div>
       </div>
     </div>
