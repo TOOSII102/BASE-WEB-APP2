@@ -391,7 +391,7 @@ export default function Contact() {
                     color: '#cbd5e0',
                     fontWeight: '500'
                   }}>
-                    Project Budget
+                    Project Budget (KES)
                   </label>
                   <select 
                     name="budget"
@@ -406,11 +406,14 @@ export default function Contact() {
                     }}
                   >
                     <option value="">Select budget range...</option>
-                    <option value="Under $1,000">Under $1,000</option>
-                    <option value="$1,000 - $5,000">$1,000 - $5,000</option>
-                    <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                    <option value="$10,000 - $25,000">$10,000 - $25,000</option>
-                    <option value="$25,000+">$25,000+</option>
+                    <option value="Under KES 5,000">Under KES 5,000</option>
+                    <option value="KES 5,000 - KES 10,000">KES 5,000 - KES 10,000</option>
+                    <option value="KES 10,000 - KES 15,000">KES 10,000 - KES 15,000</option>
+                    <option value="KES 15,000 - KES 20,000">KES 15,000 - KES 20,000</option>
+                    <option value="KES 20,000 - KES 25,000">KES 20,000 - KES 25,000</option>
+                    <option value="KES 25,000 - KES 30,000">KES 25,000 - KES 30,000</option>
+                    <option value="KES 30,000 - KES 35,000">KES 30,000 - KES 35,000</option>
+                    <option value="KES 35,000+">KES 35,000+</option>
                     <option value="To be discussed">To be discussed</option>
                   </select>
                 </div>
@@ -456,6 +459,14 @@ export default function Contact() {
                     fontSize: '1.1rem',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = 'none';
                   }}
                 >
                   Send Message
