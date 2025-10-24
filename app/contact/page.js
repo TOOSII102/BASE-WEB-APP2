@@ -182,7 +182,7 @@ export default function Contact() {
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <a 
-                  href="mailto:toosiitechcompany@gmail.com?subject=Project Inquiry&body=Hello TOOSII TECH Team, I'd like to discuss a project with you."
+                  href="mailto:toosiitechcompany@gmail.com?subject=Project Inquiry - TOOSII TECH&body=Hello TOOSII TECH Team,%0D%0A%0D%0AI'd like to discuss a project with you. Please find my details below:%0D%0A%0D%0AProject Type: %0D%0ABudget Range: %0D%0ATimeline: %0D%0A%0D%0ALooking forward to your response.%0D%0A%0D%0ABest regards,"
                   style={{
                     background: 'rgba(255, 255, 255, 0.1)',
                     color: 'white',
@@ -260,7 +260,7 @@ export default function Contact() {
               
               {/* Contact Form that sends to your email */}
               <form 
-                action="https://formsubmit.co/toosiitechcompany@gmail.com" 
+                action="https://formsubmit.co/03e1e0277adce96d52fcd8e86fdd7260" 
                 method="POST"
                 style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
               >
@@ -268,7 +268,8 @@ export default function Contact() {
                 <input type="hidden" name="_subject" value="New Contact Form Submission - TOOSII TECH" />
                 <input type="hidden" name="_template" value="table" />
                 <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://yourdomain.com/thank-you" />
+                <input type="hidden" name="_next" value="https://base-web-app-2-68us2ht66-jeshis-projects-0b108922.vercel.app/thank-you" />
+                <input type="hidden" name="_autoresponse" value="Thank you for contacting TOOSII TECH! We have received your message and will get back to you within 2 hours during business hours. Best regards, TOOSII TECH Team" />
                 
                 <div>
                   <label style={{ 
@@ -489,16 +490,36 @@ export default function Contact() {
             🌐 Connect With Us
           </h3>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-            <a href="https://twitter.com/austin254ke" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>
+            <a 
+              href="https://twitter.com/austin254ke" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}
+            >
               🐦 Twitter
             </a>
-            <a href="https://t.me/toosiitech" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>
+            <a 
+              href="https://t.me/toosiitech" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}
+            >
               📱 Telegram
             </a>
-            <a href="https://www.facebook.com/ToosiiGrainger.com9" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>
+            <a 
+              href="https://www.facebook.com/ToosiiGrainger.com9" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}
+            >
               📘 Facebook
             </a>
-            <a href="https://instagram.com/toosii_ke" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>
+            <a 
+              href="https://instagram.com/toosii_ke" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}
+            >
               📷 Instagram
             </a>
           </div>
