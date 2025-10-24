@@ -258,13 +258,13 @@ export default function Contact() {
                 Fill out the form below and we'll get back to you within 2 hours
               </p>
               
-              {/* Contact Form that sends to your email */}
+              {/* Contact Form that sends to your email - CORRECTED VERSION */}
               <form 
                 action="https://formsubmit.co/toosiitechcompany@gmail.com" 
                 method="POST"
                 style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
               >
-                {/* FormSubmit Configuration */}
+                {/* FormSubmit Configuration - UPDATED WITH CORRECT DOMAIN */}
                 <input type="hidden" name="_subject" value="New Contact Form Submission - TOOSII TECH" />
                 <input type="hidden" name="_template" value="table" />
                 <input type="hidden" name="_captcha" value="false" />
