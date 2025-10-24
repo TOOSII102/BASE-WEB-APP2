@@ -38,6 +38,34 @@ export default function ThankYou() {
         }}>
           Your message has been sent successfully. We'll get back to you within 2 hours during business hours.
         </p>
+        
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          padding: '1.5rem',
+          borderRadius: '8px',
+          border: '1px solid #334155',
+          marginBottom: '2rem'
+        }}>
+          <h3 style={{ 
+            fontSize: '1.2rem', 
+            marginBottom: '1rem',
+            color: 'white'
+          }}>
+            📧 What's Next?
+          </h3>
+          <ul style={{ 
+            textAlign: 'left', 
+            color: '#cbd5e0',
+            lineHeight: 1.6,
+            paddingLeft: '1.5rem'
+          }}>
+            <li>You'll receive a confirmation email shortly</li>
+            <li>Our team will review your message</li>
+            <li>We'll contact you within 2 hours (business hours)</li>
+            <li>Check your spam folder if you don't see our email</li>
+          </ul>
+        </div>
+
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link 
             href="/"
@@ -47,7 +75,16 @@ export default function ThankYou() {
               padding: '0.75rem 1.5rem',
               borderRadius: '8px',
               textDecoration: 'none',
-              fontWeight: '500'
+              fontWeight: '500',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = 'none';
             }}
           >
             ← Back to Home
@@ -61,12 +98,53 @@ export default function ThankYou() {
               borderRadius: '8px',
               textDecoration: 'none',
               fontWeight: '500',
-              border: '1px solid #334155'
+              border: '1px solid #334155',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
             }}
           >
             View Services
           </Link>
+          <Link 
+            href="/contact"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '500',
+              border: '1px solid #334155',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+            }}
+          >
+            Send Another Message
+          </Link>
         </div>
+
+        <p style={{ 
+          color: '#94a3b8', 
+          fontSize: '0.9rem',
+          marginTop: '2rem',
+          fontStyle: 'italic'
+        }}>
+          Need immediate assistance? Call us at <a href="tel:+254748340864" style={{color: '#60a5fa', textDecoration: 'none'}}>+254 748 340 864</a>
+        </p>
       </div>
     </div>
   )
