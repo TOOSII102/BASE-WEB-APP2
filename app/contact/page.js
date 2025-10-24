@@ -268,7 +268,7 @@ export default function Contact() {
                 <input type="hidden" name="_subject" value="New Contact Form Submission - TOOSII TECH" />
                 <input type="hidden" name="_template" value="table" />
                 <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://your-domain.com/thank-you" />
+                <input type="hidden" name="_next" value="https://base-web-app-2-hkglovcdy-jesh.vercel.app/thank-you" />
                 <input type="text" name="_honey" style={{display: 'none'}} />
                 <input type="hidden" name="_autoresponse" value="Thank you for contacting TOOSII TECH! We have received your message and will get back to you within 2 hours during business hours. Best regards, TOOSII TECH Team" />
                 
