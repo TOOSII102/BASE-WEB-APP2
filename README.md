@@ -6,12 +6,8 @@
 
 <!-- TOOSII TECH LOGO SECTION -->
 <div align="center">
-  <!-- Replace this URL with your actual TOOSII TECH logo -->
-  <img src="https://via.placeholder.com/600x200/0f172a/60a5fa?text=TOOSII+TECH+LOGO" alt="TOOSII TECH Company Logo" style="border-radius: 16px; max-width: 80%; border: 2px solid #60a5fa; padding: 20px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"/>
-  
-  <p style="color: #94a3b8; font-size: 14px; margin-top: 10px;">
-    🔧 <em>Replace with your actual TOOSII TECH logo</em>
-  </p>
+  <!-- Your actual TOOSII TECH logo -->
+  <img src="https://i.ibb.co/GfCfTSRm/IMG-20241225-115416-209.jpg" alt="TOOSII TECH Company Logo" style="border-radius: 16px; max-width: 80%; border: 2px solid #60a5fa; padding: 10px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"/>
 </div>
 
 <!-- COMPANY OVERVIEW -->
