@@ -1,13 +1,17 @@
-
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=speech&height=200&color=gradient&text=WELCOME%20TO%20TOOSII%20TECH%20🥳&animation=blinking&fontAlign=36&fontAlignY=36&descAlign=62&reversal=false&textBg=false" width="100%">
 </div>
 
 <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=70&pause=500&color=00FF00&center=true&width=1150&height=200&lines=TOOSII-TECH-COMPANY" alt="Typing SVG" /></a>
 
-<!-- HERO SECTION -->
+<!-- TOOSII TECH LOGO SECTION -->
 <div align="center">
-  <img src='https://i.ibb.co/VWt5CXzX/malvin-xd.jpg' alt='TOOSII TECH' style="border-radius: 16px; max-width: 80%;"/>
+  <!-- Replace this URL with your actual TOOSII TECH logo -->
+  <img src="https://via.placeholder.com/600x200/0f172a/60a5fa?text=TOOSII+TECH+LOGO" alt="TOOSII TECH Company Logo" style="border-radius: 16px; max-width: 80%; border: 2px solid #60a5fa; padding: 20px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"/>
+  
+  <p style="color: #94a3b8; font-size: 14px; margin-top: 10px;">
+    🔧 <em>Replace with your actual TOOSII TECH logo</em>
+  </p>
 </div>
 
 <!-- COMPANY OVERVIEW -->
