@@ -28,42 +28,42 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Please enter a valid YouTube URL' });
     }
 
-    // Extract video ID
-    let videoId = '';
-    if (url.includes('youtube.com/watch?v=')) {
-      videoId = url.split('v=')[1]?.split('&')[0];
-    } else if (url.includes('youtu.be/')) {
-      videoId = url.split('youtu.be/')[1]?.split('?')[0];
-    }
-
-    if (!videoId || videoId.length !== 11) {
-      return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
-    }
-
-    // Use the actual video-download-api.com service
-    const apiUrl = `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`;
+    // Use the savenow.to API directly
+    const apiUrl = 'https://p.savenow.to/api/start';
     
-    // Fetch from the actual API
-    const apiResponse = await fetch(apiUrl);
+    const apiResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: url,
+        format: type
+      })
+    });
+
     const data = await apiResponse.json();
 
     if (!data.success) {
       throw new Error(data.message || 'Download service failed');
     }
 
+    // Wait a moment for processing, then get the download URL
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     // Format the response with actual data from the API
     const responseData = {
       success: true,
-      downloadUrl: `https://p.savenow.to/api/download?id=${data.id}&type=${type}`,
-      title: data.title || `YouTube Video - ${videoId}`,
+      downloadUrl: `https://p.savenow.to/api/download?id=${data.id}`,
+      title: data.title || 'YouTube Video',
       duration: 'Processing...',
       quality: type === 'mp4' ? 'HD' : '128kbps',
       size: 'Processing...',
       type: type,
-      videoId: videoId,
-      thumbnail: data.info?.image || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      thumbnail: data.info?.image,
       progressUrl: data.progress_url,
-      apiId: data.id
+      apiId: data.id,
+      filename: `${data.title || 'youtube_video'}.${type}`
     };
 
     res.status(200).json(responseData);
