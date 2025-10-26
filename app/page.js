@@ -63,8 +63,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>TOOSII TECH - YouTube Downloader</title>
-        <meta name="description" content="Download YouTube videos as MP4 or extract audio as MP3" />
+        <title>TOOSII TECH - YouTube Downloader & Tech Solutions</title>
+        <meta name="description" content="Download YouTube videos and audio in MP4 and MP3 formats. Leading technology solutions in Nairobi, Kenya." />
       </Head>
 
       <div style={{ 
@@ -75,8 +75,12 @@ export default function Home() {
         {/* Navigation */}
         <nav style={{
           background: 'rgba(15, 23, 42, 0.9)',
+          backdropFilter: 'blur(10px)',
           borderBottom: '1px solid #334155',
           padding: '1rem 0',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100
         }}>
           <div style={{
             maxWidth: '1200px',
@@ -94,233 +98,479 @@ export default function Home() {
             }}>
               TOOSII TECH
             </Link>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link href="/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Home</Link>
-              <a href="https://toosii-tech-company-3npa.vercel.app/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Portal</a>
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+              <Link href="/" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
+              <Link href="/services" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>Services</Link>
+              <a href="https://toosii-tech-company-3npa.vercel.app/" target="_blank" rel="noopener noreferrer"
+                style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>Portal</a>
+              <Link href="/contact" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '500' }}>Contact</Link>
             </div>
           </div>
         </nav>
 
-        {/* Main Content */}
+        {/* Hero Section */}
         <div style={{ 
-          maxWidth: '800px', 
+          maxWidth: '1200px', 
           margin: '0 auto', 
-          padding: '2rem'
+          padding: '4rem 2rem 2rem',
+          textAlign: 'center'
         }}>
           <h1 style={{ 
-            textAlign: 'center',
+            fontSize: '3.5rem', 
+            fontWeight: 'bold', 
             marginBottom: '1rem',
             background: 'linear-gradient(45deg, #60a5fa, #a78bfa)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             color: 'transparent'
           }}>
-            YouTube Downloader
+            TOOSII TECH
           </h1>
           <p style={{ 
-            textAlign: 'center',
+            fontSize: '1.5rem', 
             color: '#cbd5e0',
-            marginBottom: '2rem'
+            marginBottom: '2rem',
+            lineHeight: '1.6'
           }}>
-            Download YouTube videos as MP4 or extract audio as MP3
+            Leading Technology Solutions & YouTube Downloader
           </p>
+        </div>
 
-          {/* Download Form */}
-          <div style={{
-            background: 'rgba(30, 41, 59, 0.8)',
-            border: '1px solid #334155',
-            borderRadius: '12px',
-            padding: '2rem',
-            marginBottom: '2rem'
-          }}>
-            <form onSubmit={handleDownload}>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ 
-                  display: 'block', 
-                  marginBottom: '0.5rem',
-                  color: '#cbd5e0',
-                  fontWeight: '500'
-                }}>
-                  YouTube URL
-                </label>
-                <input 
-                  type="url"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    borderRadius: '8px',
-                    border: '1px solid #475569',
-                    background: '#1e293b',
-                    color: 'white',
-                    fontSize: '1rem'
-                  }}
-                  required
-                />
-              </div>
-
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ 
-                  display: 'block', 
-                  marginBottom: '0.5rem',
-                  color: '#cbd5e0',
-                  fontWeight: '500'
-                }}>
-                  Download Format
-                </label>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                    <input 
-                      type="radio"
-                      value="mp4"
-                      checked={downloadType === 'mp4'}
-                      onChange={(e) => setDownloadType(e.target.value)}
-                      style={{ accentColor: '#60a5fa' }}
-                    />
-                    <span>MP4 Video</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                    <input 
-                      type="radio"
-                      value="mp3"
-                      checked={downloadType === 'mp3'}
-                      onChange={(e) => setDownloadType(e.target.value)}
-                      style={{ accentColor: '#60a5fa' }}
-                    />
-                    <span>MP3 Audio</span>
-                  </label>
-                </div>
-              </div>
-
-              <button 
-                type="submit"
-                disabled={loading}
-                style={{
-                  width: '100%',
-                  background: loading ? '#475569' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                  color: 'white',
-                  padding: '1rem 2rem',
-                  borderRadius: '8px',
-                  border: 'none',
-                  fontWeight: '600',
-                  fontSize: '1.1rem',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.7 : 1
-                }}
-              >
-                {loading ? 'Processing...' : 'Download'}
-              </button>
-            </form>
-
-            {error && (
+        {/* Main Content Grid */}
+        <div style={{ 
+          maxWidth: '1200px', 
+          margin: '0 auto', 
+          padding: '0 2rem 4rem',
+          display: 'grid',
+          gridTemplateColumns: '1fr 400px',
+          gap: '3rem',
+          alignItems: 'start'
+        }}>
+          {/* Left Column - Services */}
+          <div>
+            <div style={{ marginBottom: '3rem' }}>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'white' }}>
+                Our Services
+              </h2>
               <div style={{
-                background: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                color: '#fca5a5',
-                padding: '1rem',
-                borderRadius: '8px',
-                marginTop: '1rem'
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '1.5rem'
               }}>
-                {error}
+                {[
+                  { 
+                    icon: '💻', 
+                    title: 'Web Development', 
+                    desc: 'Custom websites and web applications built with modern technologies' 
+                  },
+                  { 
+                    icon: '📱', 
+                    title: 'Mobile Apps', 
+                    desc: 'iOS and Android applications for your business needs' 
+                  },
+                  { 
+                    icon: '☁️', 
+                    title: 'Cloud Solutions', 
+                    desc: 'Cloud infrastructure and deployment services' 
+                  },
+                  { 
+                    icon: '🔧', 
+                    title: 'IT Support', 
+                    desc: '24/7 technical support and maintenance services' 
+                  },
+                  { 
+                    icon: '🎨', 
+                    title: 'UI/UX Design', 
+                    desc: 'Beautiful and user-friendly interface designs' 
+                  },
+                  { 
+                    icon: '🚀', 
+                    title: 'Digital Marketing', 
+                    desc: 'Boost your online presence and reach more customers' 
+                  },
+                  { 
+                    icon: '🛒', 
+                    title: 'E-commerce Solutions', 
+                    desc: 'Online stores and payment integration services' 
+                  },
+                  { 
+                    icon: '📊', 
+                    title: 'Data Analytics', 
+                    desc: 'Business intelligence and data visualization solutions' 
+                  },
+                  { 
+                    icon: '🔒', 
+                    title: 'Cyber Security', 
+                    desc: 'Security audits and protection for your digital assets' 
+                  }
+                ].map((service, index) => (
+                  <div key={index} style={{
+                    background: 'rgba(30, 41, 59, 0.8)',
+                    padding: '1.5rem',
+                    borderRadius: '12px',
+                    border: '1px solid #334155',
+                    transition: 'transform 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)'
+                    e.currentTarget.style.borderColor = '#60a5fa'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.borderColor = '#334155'
+                  }}
+                  >
+                    <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{service.icon}</div>
+                    <h3 style={{ color: 'white', marginBottom: '0.5rem', fontSize: '1.25rem' }}>
+                      {service.title}
+                    </h3>
+                    <p style={{ color: '#cbd5e0', lineHeight: '1.5' }}>
+                      {service.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Results */}
-          {result && (
+            {/* About Section */}
             <div style={{
               background: 'rgba(30, 41, 59, 0.8)',
               border: '1px solid #334155',
               borderRadius: '12px',
               padding: '2rem'
             }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: '1.5rem'
-              }}>
-                <h3 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                  Download Ready!
-                </h3>
-                <button 
-                  onClick={resetForm}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    border: '1px solid #334155',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  New Download
-                </button>
-              </div>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>
+                About TOOSII TECH
+              </h2>
+              <p style={{ color: '#cbd5e0', lineHeight: '1.6', marginBottom: '1rem' }}>
+                Based in Nairobi, Kenya, TOOSII TECH provides cutting-edge technology solutions 
+                for businesses and individuals. We specialize in web development, mobile applications, 
+                and digital services that help you succeed in the digital world.
+              </p>
+              <p style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
+                Our YouTube downloader tool is just one example of our commitment to creating 
+                useful, free tools for the community. We believe in making technology accessible 
+                and beneficial for everyone.
+              </p>
+            </div>
 
-              <div style={{ 
-                background: 'rgba(255, 255, 255, 0.05)',
-                padding: '1.5rem',
-                borderRadius: '8px',
-                marginBottom: '1.5rem'
+            {/* Why Choose Us Section */}
+            <div style={{ marginTop: '3rem' }}>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'white' }}>
+                Why Choose TOOSII TECH?
+              </h2>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '1.5rem'
               }}>
-                <h4 style={{ color: 'white', marginBottom: '1rem' }}>
-                  {result.title}
-                </h4>
-                
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                  gap: '1rem',
-                  marginBottom: '1.5rem'
-                }}>
-                  <div>
-                    <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Duration</div>
-                    <div style={{ color: 'white', fontWeight: '500' }}>{result.duration}</div>
+                {[
+                  { 
+                    icon: '⚡', 
+                    title: 'Fast Delivery', 
+                    desc: 'Quick turnaround times without compromising quality' 
+                  },
+                  { 
+                    icon: '💎', 
+                    title: 'Quality Assurance', 
+                    desc: 'Rigorous testing and quality control processes' 
+                  },
+                  { 
+                    icon: '🤝', 
+                    title: 'Client Focused', 
+                    desc: 'We prioritize your needs and business objectives' 
+                  },
+                  { 
+                    icon: '🌍', 
+                    title: 'Global Reach', 
+                    desc: 'Serving clients worldwide with local expertise' 
+                  }
+                ].map((feature, index) => (
+                  <div key={index} style={{
+                    background: 'rgba(30, 41, 59, 0.8)',
+                    padding: '1.5rem',
+                    borderRadius: '12px',
+                    border: '1px solid #334155',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{feature.icon}</div>
+                    <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>{feature.title}</h4>
+                    <p style={{ color: '#cbd5e0', fontSize: '0.875rem' }}>{feature.desc}</p>
                   </div>
-                  <div>
-                    <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Quality</div>
-                    <div style={{ color: 'white', fontWeight: '500' }}>{result.quality}</div>
-                  </div>
-                  <div>
-                    <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Size</div>
-                    <div style={{ color: 'white', fontWeight: '500' }}>{result.size}</div>
-                  </div>
-                  <div>
-                    <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Format</div>
-                    <div style={{ color: 'white', fontWeight: '500' }}>{result.type.toUpperCase()}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - YouTube Downloader */}
+          <div style={{ position: 'sticky', top: '100px' }}>
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.9)',
+              border: '1px solid #334155',
+              borderRadius: '12px',
+              padding: '2rem',
+              marginBottom: '2rem'
+            }}>
+              <h3 style={{ 
+                fontSize: '1.5rem', 
+                marginBottom: '1.5rem', 
+                color: 'white',
+                textAlign: 'center'
+              }}>
+                YouTube Downloader
+              </h3>
+              
+              <form onSubmit={handleDownload}>
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    marginBottom: '0.5rem',
+                    color: '#cbd5e0',
+                    fontWeight: '500'
+                  }}>
+                    YouTube URL *
+                  </label>
+                  <input 
+                    type="url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '8px',
+                      border: '1px solid #475569',
+                      background: '#1e293b',
+                      color: 'white',
+                      fontSize: '1rem'
+                    }}
+                    required
+                  />
+                </div>
+
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    marginBottom: '0.5rem',
+                    color: '#cbd5e0',
+                    fontWeight: '500'
+                  }}>
+                    Download Format
+                  </label>
+                  <div style={{ display: 'flex', gap: '1rem' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                      <input 
+                        type="radio"
+                        value="mp4"
+                        checked={downloadType === 'mp4'}
+                        onChange={(e) => setDownloadType(e.target.value)}
+                        style={{ accentColor: '#60a5fa' }}
+                      />
+                      <span>MP4 Video</span>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                      <input 
+                        type="radio"
+                        value="mp3"
+                        checked={downloadType === 'mp3'}
+                        onChange={(e) => setDownloadType(e.target.value)}
+                        style={{ accentColor: '#60a5fa' }}
+                      />
+                      <span>MP3 Audio</span>
+                    </label>
                   </div>
                 </div>
 
-                <a 
-                  href={result.downloadUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button 
+                  type="submit"
+                  disabled={loading}
                   style={{
-                    display: 'inline-block',
-                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    width: '100%',
+                    background: loading ? '#475569' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
                     color: 'white',
-                    padding: '0.75rem 1.5rem',
+                    padding: '1rem 2rem',
                     borderRadius: '8px',
-                    textDecoration: 'none',
+                    border: 'none',
                     fontWeight: '600',
-                    fontSize: '1rem'
+                    fontSize: '1.1rem',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    opacity: loading ? 0.7 : 1
                   }}
                 >
-                  Download {result.type.toUpperCase()}
-                </a>
-              </div>
+                  {loading ? 'Processing...' : 'Download'}
+                </button>
+              </form>
 
-              {result.note && (
-                <div style={{ color: '#94a3b8', fontSize: '0.875rem', fontStyle: 'italic' }}>
-                  {result.note}
+              {error && (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#fca5a5',
+                  padding: '1rem',
+                  borderRadius: '8px',
+                  marginTop: '1rem'
+                }}>
+                  {error}
                 </div>
               )}
             </div>
-          )}
+
+            {/* Results */}
+            {result && (
+              <div style={{
+                background: 'rgba(30, 41, 59, 0.9)',
+                border: '1px solid #334155',
+                borderRadius: '12px',
+                padding: '2rem'
+              }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '1.5rem'
+                }}>
+                  <h4 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
+                    Download Ready!
+                  </h4>
+                  <button 
+                    onClick={resetForm}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      border: '1px solid #334155',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem'
+                    }}
+                  >
+                    New Download
+                  </button>
+                </div>
+
+                <div style={{ 
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  padding: '1.5rem',
+                  borderRadius: '8px',
+                  marginBottom: '1.5rem'
+                }}>
+                  <h5 style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>
+                    {result.title}
+                  </h5>
+                  
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '1rem',
+                    marginBottom: '1.5rem'
+                  }}>
+                    {result.duration && (
+                      <div>
+                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Duration</div>
+                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                          {result.duration}
+                        </div>
+                      </div>
+                    )}
+                    <div>
+                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Format</div>
+                      <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                        {result.type.toUpperCase()}
+                      </div>
+                    </div>
+                  </div>
+
+                  <a 
+                    href={result.downloadUrl}
+                    download
+                    style={{
+                      display: 'block',
+                      textAlign: 'center',
+                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                      color: 'white',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      fontWeight: '600',
+                      fontSize: '0.9rem'
+                    }}
+                  >
+                    Download {result.type.toUpperCase()}
+                  </a>
+                </div>
+
+                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+                  💡 Right-click and "Save link as..." to download
+                </div>
+              </div>
+            )}
+
+            {/* Quick Features */}
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.8)',
+              border: '1px solid #334155',
+              borderRadius: '12px',
+              padding: '1.5rem'
+            }}>
+              <h4 style={{ color: 'white', marginBottom: '1rem', fontSize: '1.1rem' }}>
+                Download Features
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {[
+                  '🎥 High Quality MP4 Videos',
+                  '🎵 Clear MP3 Audio',
+                  '⚡ Fast Processing',
+                  '🔒 Secure & Private',
+                  '📱 Mobile Friendly',
+                  '💯 Free Service'
+                ].map((feature, index) => (
+                  <div key={index} style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    color: '#cbd5e0',
+                    fontSize: '0.9rem'
+                  }}>
+                    {feature}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Footer */}
+        <footer style={{
+          background: 'rgba(15, 23, 42, 0.9)',
+          borderTop: '1px solid #334155',
+          padding: '3rem 2rem',
+          marginTop: '4rem'
+        }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white' }}>
+              TOOSII TECH
+            </div>
+            <p style={{ color: '#cbd5e0', marginBottom: '2rem' }}>
+              Leading technology solutions in Nairobi, Kenya
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+              <a href="mailto:toosiitechcompany@gmail.com" style={{ color: '#60a5fa', textDecoration: 'none' }}>
+                📧 toosiitechcompany@gmail.com
+              </a>
+              <a href="tel:+254748340864" style={{ color: '#60a5fa', textDecoration: 'none' }}>
+                📞 +254 748 340 864
+              </a>
+              <a href="https://toosii-tech-company-3npa.vercel.app/" target="_blank" rel="noopener noreferrer" 
+                style={{ color: '#60a5fa', textDecoration: 'none' }}>
+                🌐 Company Portal
+              </a>
+            </div>
+            <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+              © 2024 TOOSII TECH. All rights reserved.
+            </p>
+          </div>
+        </footer>
       </div>
     </>
   )
