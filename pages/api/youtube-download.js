@@ -40,29 +40,17 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // Use reliable services that actually work
-    const downloadUrls = {
-      mp3: [
-        `https://api.download-lagu-mp3.com/@api/button/mp3/${videoId}`,
-        `https://api.vevioz.com/api/button/mp3/${videoId}`,
-        `https://api.onlinevideoconverter.pro/api/button/mp3/${videoId}`
-      ],
-      mp4: [
-        `https://api.download-lagu-mp3.com/@api/button/mp4/${videoId}`,
-        `https://api.vevioz.com/api/button/mp4/${videoId}`,
-        `https://api.onlinevideoconverter.pro/api/button/mp4/${videoId}`
-      ]
-    };
+    // Use the working API endpoint
+    const downloadUrl = `https://api.onlinevideoconverter.pro/api/button/${type}/${videoId}`;
 
     const responseData = {
       success: true,
-      downloadUrls: downloadUrls[type],
-      title: `YouTube ${type.toUpperCase()} - ${videoId}`,
+      downloadUrl: downloadUrl,
+      title: `YouTube ${type.toUpperCase()} Download`,
       quality: type === 'mp4' ? '720p' : '128kbps',
       type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-      note: "File will download directly to your device"
+      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
     };
 
     res.status(200).json(responseData);
@@ -70,7 +58,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Download error:', error);
     res.status(500).json({ 
-      error: 'Service temporarily unavailable. Please try again in a few moments.' 
+      error: 'Service temporarily unavailable. Please try again.' 
     });
   }
 }
