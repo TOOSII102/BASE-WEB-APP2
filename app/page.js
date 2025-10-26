@@ -10,7 +10,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
-  const [downloading, setDownloading] = useState(false)
   const urlInputRef = useRef(null)
 
   const handleDownload = async () => {
@@ -22,7 +21,6 @@ export default function Home() {
     setLoading(true)
     setError('')
     setResult(null)
-    setDownloading(false)
 
     try {
       const response = await fetch('/api/youtube-download', {
@@ -47,57 +45,43 @@ export default function Home() {
       }
 
       setResult(data)
-      setDownloading(true)
       
-      // Try all download URLs until one works
-      triggerBrowserDownload(data.downloadUrls, `youtube_download.${data.type}`);
+      // Trigger download with all available URLs
+      triggerAllDownloads(data.downloadUrls, data.type);
       
     } catch (err) {
       console.error('Download error:', err);
-      setError(err.message || 'Download failed. Please try a different video.')
+      setError(err.message || 'Download failed. Please try a different video or try again later.')
     } finally {
       setLoading(false)
     }
   }
 
-  const triggerBrowserDownload = (downloadUrls, filename) => {
-    console.log('Starting browser download...', { downloadUrls, filename });
+  const triggerAllDownloads = (downloadUrls, type) => {
+    console.log('Starting downloads with URLs:', downloadUrls);
     
-    let success = false;
-    
-    // Try each download URL until one works
+    // Try each download URL
     downloadUrls.forEach((downloadUrl, index) => {
-      if (success) return; // Skip if already succeeded
-      
       setTimeout(() => {
         try {
-          // Method 1: Direct download with anchor tag (works in Chrome, Firefox, Edge, Safari)
+          // Create download link
           const link = document.createElement('a');
           link.href = downloadUrl;
-          link.download = filename; // This triggers download in supported browsers
-          link.target = '_blank'; // Fallback for browsers that don't support download attribute
-          link.rel = 'noopener noreferrer';
-          
-          // Style it to be invisible
+          link.download = `youtube_video.${type}`;
+          link.target = '_blank';
           link.style.display = 'none';
           
-          // Append to body and trigger click
+          // Add to page and click
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
           
-          console.log(`Download attempt ${index + 1} triggered:`, downloadUrl);
-          success = true;
+          console.log(`Download attempt ${index + 1} triggered`);
           
         } catch (err) {
           console.log(`Download attempt ${index + 1} failed:`, err);
-          
-          // Last resort: open in new tab
-          if (index === downloadUrls.length - 1 && !success) {
-            window.open(downloadUrl, '_blank');
-          }
         }
-      }, index * 1000); // Stagger attempts by 1 second
+      }, index * 1000); // Stagger attempts
     });
   }
 
@@ -106,7 +90,6 @@ export default function Home() {
     setDownloadType('mp4')
     setResult(null)
     setError('')
-    setDownloading(false)
     if (urlInputRef.current) {
       urlInputRef.current.focus();
     }
@@ -118,11 +101,11 @@ export default function Home() {
     }
   }
 
-  // Test with popular videos
+  // Test with working videos
   const testDownload = (videoType = 'mp4') => {
     const testVideos = {
-      mp4: 'https://www.youtube.com/watch?v=JGwWNGJdvx8', // Shape of You - Ed Sheeran
-      mp3: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ' // Bohemian Rhapsody - Queen
+      mp4: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
+      mp3: 'https://www.youtube.com/watch?v=JGwWNGJdvx8'  // Ed Sheeran - Shape of You
     };
     
     setUrl(testVideos[videoType]);
@@ -133,8 +116,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>TOOSII TECH - YouTube to MP3/MP4 Downloader</title>
-        <meta name="description" content="Download YouTube videos as MP4 or audio as MP3 directly to your device - Works on Chrome, Firefox, Safari, Edge" />
+        <title>TOOSII TECH - YouTube Downloader</title>
+        <meta name="description" content="Download YouTube videos as MP4 or audio as MP3 directly to your device" />
       </Head>
 
       <div style={{ 
@@ -164,16 +147,12 @@ export default function Home() {
             }}>
               TOOSII TECH
             </Link>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Link href="/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Home</Link>
-              <a href="https://toosii-tech-company-3npa.vercel.app/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Portal</a>
-            </div>
           </div>
         </nav>
 
         {/* Main Content */}
         <div style={{ 
-          maxWidth: '800px', 
+          maxWidth: '600px', 
           margin: '0 auto', 
           padding: '2rem'
         }}>
@@ -192,13 +171,10 @@ export default function Home() {
             color: '#cbd5e0',
             marginBottom: '2rem'
           }}>
-            Download YouTube videos and audio directly to your device<br />
-            <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>
-              Works on Chrome, Firefox, Safari, Edge, and all modern browsers
-            </span>
+            Download videos and audio directly to your device
           </p>
 
-          {/* Download Section */}
+          {/* Download Box */}
           <div style={{
             background: 'rgba(30, 41, 59, 0.8)',
             border: '1px solid #334155',
@@ -220,7 +196,7 @@ export default function Home() {
                   fontSize: '0.875rem'
                 }}
               >
-                🎥 Test MP4 Video
+                Test MP4
               </button>
               <button 
                 onClick={() => testDownload('mp3')}
@@ -234,7 +210,7 @@ export default function Home() {
                   fontSize: '0.875rem'
                 }}
               >
-                🎵 Test MP3 Audio
+                Test MP3
               </button>
             </div>
 
@@ -253,7 +229,7 @@ export default function Home() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Paste any YouTube link here..."
+                placeholder="Paste YouTube link here..."
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem',
@@ -287,11 +263,10 @@ export default function Home() {
                     background: downloadType === 'mp4' ? 'rgba(96, 165, 250, 0.15)' : 'rgba(30, 41, 59, 0.8)',
                     color: 'white',
                     cursor: 'pointer',
-                    fontWeight: '500',
-                    fontSize: '1rem'
+                    fontWeight: '500'
                   }}
                 >
-                  🎥 MP4 Video
+                  MP4 Video
                 </button>
                 <button
                   type="button"
@@ -304,11 +279,10 @@ export default function Home() {
                     background: downloadType === 'mp3' ? 'rgba(96, 165, 250, 0.15)' : 'rgba(30, 41, 59, 0.8)',
                     color: 'white',
                     cursor: 'pointer',
-                    fontWeight: '500',
-                    fontSize: '1rem'
+                    fontWeight: '500'
                   }}
                 >
-                  🎵 MP3 Audio
+                  MP3 Audio
                 </button>
               </div>
             </div>
@@ -320,7 +294,7 @@ export default function Home() {
                 width: '100%',
                 background: loading || !url.trim() ? '#475569' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
                 color: 'white',
-                padding: '1.25rem 2rem',
+                padding: '1rem 2rem',
                 borderRadius: '8px',
                 border: 'none',
                 fontWeight: '600',
@@ -329,7 +303,7 @@ export default function Home() {
                 opacity: loading || !url.trim() ? 0.7 : 1
               }}
             >
-              {loading ? '🔄 Processing...' : '⬇️ Download to Device'}
+              {loading ? '🔄 Processing...' : '⬇️ Download Now'}
             </button>
           </div>
 
@@ -353,44 +327,18 @@ export default function Home() {
               borderRadius: '12px',
               padding: '2rem'
             }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: '1.5rem'
-              }}>
-                <h3 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                  {downloading ? '✅ Download Complete!' : '⬇️ Downloading...'}
-                </h3>
-                <button 
-                  onClick={resetForm}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
-                    border: '1px solid #334155',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Download Another
-                </button>
-              </div>
-
+              <h3 style={{ fontSize: '1.25rem', color: 'white', marginBottom: '1rem', textAlign: 'center' }}>
+                ✅ Download Started!
+              </h3>
+              
               <div style={{ 
                 background: 'rgba(255, 255, 255, 0.05)',
                 padding: '1.5rem',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                marginBottom: '1rem'
               }}>
-                <div style={{ 
-                  color: downloading ? '#10b981' : '#60a5fa', 
-                  textAlign: 'center', 
-                  marginBottom: '1rem',
-                  fontWeight: '500'
-                }}>
-                  {downloading 
-                    ? '✅ File downloaded to your device!' 
-                    : '⬇️ Downloading to your device...'}
+                <div style={{ color: '#10b981', textAlign: 'center', marginBottom: '1rem', fontWeight: '500' }}>
+                  Your {result.type.toUpperCase()} file is downloading...
                 </div>
                 
                 <div style={{ 
@@ -408,44 +356,35 @@ export default function Home() {
                     <div style={{ color: 'white', fontWeight: '500' }}>{result.quality}</div>
                   </div>
                 </div>
+              </div>
 
-                <div style={{ color: '#94a3b8', fontSize: '0.875rem', textAlign: 'center' }}>
-                  💡 Check your Downloads folder for the file
-                </div>
+              <div style={{ textAlign: 'center' }}>
+                <button 
+                  onClick={resetForm}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: 'white',
+                    border: '1px solid #334155',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '500'
+                  }}
+                >
+                  Download Another
+                </button>
               </div>
             </div>
           )}
 
-          {/* Browser Support */}
-          <div style={{ marginTop: '2rem' }}>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white', textAlign: 'center' }}>
-              Supported Browsers
-            </h3>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-              gap: '1rem'
-            }}>
-              {[
-                { icon: '🌐', name: 'Chrome', desc: 'Fully supported' },
-                { icon: '🦊', name: 'Firefox', desc: 'Fully supported' },
-                { icon: '🔵', name: 'Edge', desc: 'Fully supported' },
-                { icon: '🍎', name: 'Safari', desc: 'Fully supported' },
-                { icon: '⚡', name: 'Opera', desc: 'Fully supported' },
-                { icon: '📱', name: 'Mobile', desc: 'Chrome & Safari' }
-              ].map((browser, index) => (
-                <div key={index} style={{
-                  background: 'rgba(30, 41, 59, 0.8)',
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  border: '1px solid #334155',
-                  textAlign: 'center'
-                }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{browser.icon}</div>
-                  <h4 style={{ color: 'white', marginBottom: '0.25rem', fontSize: '1rem' }}>{browser.name}</h4>
-                  <p style={{ color: '#cbd5e0', fontSize: '0.75rem' }}>{browser.desc}</p>
-                </div>
-              ))}
+          {/* Instructions */}
+          <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+            <h3 style={{ color: 'white', marginBottom: '1rem' }}>How to Download</h3>
+            <div style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
+              1. Paste YouTube URL<br />
+              2. Select MP4 or MP3<br />
+              3. Click Download<br />
+              4. File saves to your device
             </div>
           </div>
         </div>
@@ -454,26 +393,15 @@ export default function Home() {
         <footer style={{
           background: 'rgba(15, 23, 42, 0.9)',
           borderTop: '1px solid #334155',
-          padding: '3rem 2rem',
-          marginTop: '4rem'
+          padding: '2rem',
+          marginTop: '3rem'
         }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white' }}>
+          <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', color: 'white' }}>
               TOOSII TECH
             </div>
-            <p style={{ color: '#cbd5e0', marginBottom: '2rem' }}>
-              Download YouTube videos and audio directly to your device - All browsers supported
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
-              <a href="mailto:toosiitechcompany@gmail.com" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-                📧 toosiitechcompany@gmail.com
-              </a>
-              <a href="tel:+254748340864" style={{ color: '#60a5fa', textDecoration: 'none' }}>
-                📞 +254 748 340 864
-              </a>
-            </div>
             <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
-              © 2024 TOOSII TECH. All rights reserved.
+              Download YouTube videos and audio directly to your device
             </p>
           </div>
         </footer>
