@@ -40,28 +40,29 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // Use multiple reliable download services
-    const downloadServices = {
+    // Use reliable services that actually work
+    const downloadUrls = {
       mp3: [
+        `https://api.download-lagu-mp3.com/@api/button/mp3/${videoId}`,
         `https://api.vevioz.com/api/button/mp3/${videoId}`,
-        `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=mp3`,
-        `https://yt5s.com/en/api/convert/${videoId}`
+        `https://api.onlinevideoconverter.pro/api/button/mp3/${videoId}`
       ],
       mp4: [
+        `https://api.download-lagu-mp3.com/@api/button/mp4/${videoId}`,
         `https://api.vevioz.com/api/button/mp4/${videoId}`,
-        `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=mp4`,
-        `https://yt5s.com/en/api/convert/${videoId}`
+        `https://api.onlinevideoconverter.pro/api/button/mp4/${videoId}`
       ]
     };
 
     const responseData = {
       success: true,
-      downloadUrls: downloadServices[type],
-      title: `YouTube ${type.toUpperCase()} Download`,
+      downloadUrls: downloadUrls[type],
+      title: `YouTube ${type.toUpperCase()} - ${videoId}`,
       quality: type === 'mp4' ? '720p' : '128kbps',
       type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      note: "File will download directly to your device"
     };
 
     res.status(200).json(responseData);
@@ -69,7 +70,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Download error:', error);
     res.status(500).json({ 
-      error: 'Service temporarily unavailable. Please try again.' 
+      error: 'Service temporarily unavailable. Please try again in a few moments.' 
     });
   }
 }
