@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -10,11 +10,17 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
-  const [downloading, setDownloading] = useState(false)
+  const [autoDownload, setAutoDownload] = useState(false)
+  const urlInputRef = useRef(null)
 
-  const handleDownload = async (e) => {
-    e.preventDefault()
-    
+  // Auto-download when URL is pasted and format is selected
+  useEffect(() => {
+    if (url && autoDownload) {
+      handleAutoDownload();
+    }
+  }, [url, downloadType, autoDownload]);
+
+  const handleAutoDownload = async () => {
     if (!url.trim()) {
       setError('Please enter a YouTube URL')
       return
@@ -47,35 +53,29 @@ export default function Home() {
       }
 
       setResult(data)
+      
+      // Automatically trigger download
+      setTimeout(() => {
+        triggerDownload(data.downloadUrl, data.title, data.type);
+      }, 1000);
+      
     } catch (err) {
       setError(err.message || 'An error occurred while processing your request')
     } finally {
       setLoading(false)
+      setAutoDownload(false)
     }
   }
 
-  const resetForm = () => {
-    setUrl('')
-    setDownloadType('mp4')
-    setResult(null)
-    setError('')
-    setDownloading(false)
-  }
-
-  // Function to handle the actual download to device
-  const handleActualDownload = async () => {
-    if (!result || !result.downloadUrl) return;
-
-    setDownloading(true);
-    
+  const triggerDownload = (downloadUrl, title, type) => {
     try {
       // Create a safe filename
-      const safeTitle = result.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-      const filename = `${safeTitle}.${result.type}`;
+      const safeTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const filename = `${safeTitle}.${type}`;
       
-      // Method 1: Direct download using anchor tag with download attribute
+      // Method 1: Direct download using anchor tag
       const link = document.createElement('a');
-      link.href = result.downloadUrl;
+      link.href = downloadUrl;
       link.setAttribute('download', filename);
       link.setAttribute('target', '_blank');
       
@@ -84,56 +84,44 @@ export default function Home() {
       link.click();
       document.body.removeChild(link);
       
-      // Fallback: If direct download doesn't work, open in new tab
-      setTimeout(() => {
-        window.open(result.downloadUrl, '_blank');
-      }, 1000);
+      console.log('Download triggered:', filename);
       
     } catch (err) {
       console.error('Download error:', err);
-      // Fallback to opening in new tab
-      window.open(result.downloadUrl, '_blank');
-    } finally {
-      setTimeout(() => setDownloading(false), 2000);
+      // Fallback: Open in new tab
+      window.open(downloadUrl, '_blank');
     }
   }
 
-  // Alternative download method using fetch (for smaller files)
-  const handleFetchDownload = async () => {
-    if (!result || !result.downloadUrl) return;
+  const handleUrlPaste = (e) => {
+    // Set auto-download flag when user pastes a URL
+    setTimeout(() => {
+      if (url.trim()) {
+        setAutoDownload(true);
+      }
+    }, 500);
+  }
 
-    setDownloading(true);
-    
-    try {
-      const response = await fetch(result.downloadUrl);
-      const blob = await response.blob();
-      
-      // Create blob URL
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      // Create download link
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      
-      const safeTitle = result.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-      const filename = `${safeTitle}.${result.type}`;
-      link.download = filename;
-      
-      // Append to body, click, and remove
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Clean up blob URL
-      window.URL.revokeObjectURL(blobUrl);
-      
-    } catch (err) {
-      console.error('Fetch download error:', err);
-      // Fallback to direct method
-      handleActualDownload();
-    } finally {
-      setTimeout(() => setDownloading(false), 2000);
+  const handleFormatChange = (type) => {
+    setDownloadType(type);
+    if (url.trim()) {
+      setAutoDownload(true);
     }
+  }
+
+  const resetForm = () => {
+    setUrl('')
+    setDownloadType('mp4')
+    setResult(null)
+    setError('')
+    setAutoDownload(false)
+    if (urlInputRef.current) {
+      urlInputRef.current.focus();
+    }
+  }
+
+  const manualDownload = () => {
+    setAutoDownload(true);
   }
 
   return (
@@ -208,7 +196,7 @@ export default function Home() {
             marginBottom: '2rem',
             lineHeight: '1.6'
           }}>
-            Leading Technology Solutions & YouTube Downloader
+            YouTube Downloader - Auto Download to Device
           </p>
         </div>
 
@@ -305,12 +293,10 @@ export default function Home() {
               </h2>
               <p style={{ color: '#cbd5e0', lineHeight: '1.6', marginBottom: '1rem' }}>
                 Based in Nairobi, Kenya, TOOSII TECH provides cutting-edge technology solutions 
-                for businesses and individuals. We specialize in web development, mobile applications, 
-                and digital services that help you succeed in the digital world.
+                for businesses and individuals.
               </p>
               <p style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
-                Our YouTube downloader tool is just one example of our commitment to creating 
-                useful, free tools for the community.
+                Our YouTube downloader automatically downloads files to your device when you paste a link and select format.
               </p>
             </div>
           </div>
@@ -333,100 +319,130 @@ export default function Home() {
                 YouTube Downloader
               </h3>
               
-              <form onSubmit={handleDownload}>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    marginBottom: '0.5rem',
-                    color: '#cbd5e0',
-                    fontWeight: '500'
-                  }}>
-                    YouTube URL *
-                  </label>
-                  <input 
-                    type="url"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://www.youtube.com/watch?v=..."
-                    style={{
-                      width: '100%',
-                      padding: '0.75rem 1rem',
-                      borderRadius: '8px',
-                      border: '1px solid #475569',
-                      background: '#1e293b',
-                      color: 'white',
-                      fontSize: '1rem'
-                    }}
-                    required
-                  />
-                </div>
-
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    marginBottom: '0.5rem',
-                    color: '#cbd5e0',
-                    fontWeight: '500'
-                  }}>
-                    Download Format
-                  </label>
-                  <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                      <input 
-                        type="radio"
-                        value="mp4"
-                        checked={downloadType === 'mp4'}
-                        onChange={(e) => setDownloadType(e.target.value)}
-                        style={{ accentColor: '#60a5fa' }}
-                      />
-                      <span>MP4 Video</span>
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                      <input 
-                        type="radio"
-                        value="mp3"
-                        checked={downloadType === 'mp3'}
-                        onChange={(e) => setDownloadType(e.target.value)}
-                        style={{ accentColor: '#60a5fa' }}
-                      />
-                      <span>MP3 Audio</span>
-                    </label>
-                  </div>
-                </div>
-
-                <button 
-                  type="submit"
-                  disabled={loading}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '0.5rem',
+                  color: '#cbd5e0',
+                  fontWeight: '500'
+                }}>
+                  Paste YouTube URL *
+                </label>
+                <input 
+                  ref={urlInputRef}
+                  type="url"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  onPaste={handleUrlPaste}
+                  placeholder="Paste YouTube link here..."
                   style={{
                     width: '100%',
-                    background: loading ? '#475569' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '8px',
+                    border: '1px solid #475569',
+                    background: '#1e293b',
+                    color: 'white',
+                    fontSize: '1rem'
+                  }}
+                />
+                <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                  Paste a link and select format to auto-download
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '0.5rem',
+                  color: '#cbd5e0',
+                  fontWeight: '500'
+                }}>
+                  Download Format
+                </label>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleFormatChange('mp4')}
+                    style={{
+                      flex: 1,
+                      padding: '0.75rem 1rem',
+                      borderRadius: '8px',
+                      border: downloadType === 'mp4' ? '2px solid #60a5fa' : '1px solid #475569',
+                      background: downloadType === 'mp4' ? 'rgba(96, 165, 250, 0.15)' : 'rgba(30, 41, 59, 0.8)',
+                      color: 'white',
+                      cursor: 'pointer',
+                      fontWeight: '500'
+                    }}
+                  >
+                    MP4 Video
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleFormatChange('mp3')}
+                    style={{
+                      flex: 1,
+                      padding: '0.75rem 1rem',
+                      borderRadius: '8px',
+                      border: downloadType === 'mp3' ? '2px solid #60a5fa' : '1px solid #475569',
+                      background: downloadType === 'mp3' ? 'rgba(96, 165, 250, 0.15)' : 'rgba(30, 41, 59, 0.8)',
+                      color: 'white',
+                      cursor: 'pointer',
+                      fontWeight: '500'
+                    }}
+                  >
+                    MP3 Audio
+                  </button>
+                </div>
+              </div>
+
+              {!loading && !autoDownload && url && (
+                <button 
+                  onClick={manualDownload}
+                  style={{
+                    width: '100%',
+                    background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
                     color: 'white',
                     padding: '1rem 2rem',
                     borderRadius: '8px',
                     border: 'none',
                     fontWeight: '600',
                     fontSize: '1.1rem',
-                    cursor: loading ? 'not-allowed' : 'pointer',
-                    opacity: loading ? 0.7 : 1
+                    cursor: 'pointer'
                   }}
                 >
-                  {loading ? 'Processing...' : 'Download'}
+                  Download Now
                 </button>
-              </form>
+              )}
 
-              {error && (
+              {(loading || autoDownload) && (
                 <div style={{
-                  background: 'rgba(239, 68, 68, 0.1)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  color: '#fca5a5',
-                  padding: '1rem',
+                  width: '100%',
+                  background: '#475569',
+                  color: 'white',
+                  padding: '1rem 2rem',
                   borderRadius: '8px',
-                  marginTop: '1rem'
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: '1.1rem',
+                  textAlign: 'center'
                 }}>
-                  {error}
+                  ⏳ Downloading to your device...
                 </div>
               )}
             </div>
+
+            {error && (
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                color: '#fca5a5',
+                padding: '1rem',
+                borderRadius: '8px',
+                marginBottom: '2rem'
+              }}>
+                {error}
+              </div>
+            )}
 
             {/* Results */}
             {result && (
@@ -443,7 +459,7 @@ export default function Home() {
                   marginBottom: '1.5rem'
                 }}>
                   <h4 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                    ✅ Download Ready!
+                    ✅ Download Complete!
                   </h4>
                   <button 
                     onClick={resetForm}
@@ -484,43 +500,32 @@ export default function Home() {
                       </div>
                     </div>
                     <div>
-                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Quality</div>
-                      <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
-                        {result.quality}
+                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Status</div>
+                      <div style={{ color: '#10b981', fontWeight: '500', fontSize: '0.875rem' }}>
+                        Downloaded to Device
                       </div>
                     </div>
                   </div>
 
-                  <button 
-                    onClick={handleActualDownload}
-                    disabled={downloading}
-                    style={{
-                      width: '100%',
-                      background: downloading 
-                        ? 'linear-gradient(135deg, #475569, #64748b)' 
-                        : 'linear-gradient(135deg, #10b981, #059669)',
-                      color: 'white',
-                      padding: '0.75rem 1.5rem',
-                      borderRadius: '8px',
-                      border: 'none',
-                      textDecoration: 'none',
-                      fontWeight: '600',
-                      fontSize: '0.9rem',
-                      cursor: downloading ? 'not-allowed' : 'pointer',
-                      opacity: downloading ? 0.7 : 1
-                    }}
-                  >
-                    {downloading ? 'Downloading...' : `⬇️ Download ${result.type.toUpperCase()}`}
-                  </button>
+                  <div style={{ 
+                    color: '#10b981', 
+                    textAlign: 'center',
+                    padding: '0.5rem',
+                    background: 'rgba(16, 185, 129, 0.1)',
+                    borderRadius: '6px',
+                    border: '1px solid rgba(16, 185, 129, 0.3)'
+                  }}>
+                    ✅ File saved to your Downloads folder
+                  </div>
                 </div>
 
                 <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-                  💡 The file will download directly to your device
+                  💡 Check your Downloads folder to listen to the {result.type.toUpperCase()} file
                 </div>
               </div>
             )}
 
-            {/* Quick Features */}
+            {/* Instructions */}
             <div style={{
               background: 'rgba(30, 41, 59, 0.8)',
               border: '1px solid #334155',
@@ -528,17 +533,16 @@ export default function Home() {
               padding: '1.5rem'
             }}>
               <h4 style={{ color: 'white', marginBottom: '1rem', fontSize: '1.1rem' }}>
-                Download Features
+                How to Use
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {[
-                  '🎥 High Quality MP4 Videos',
-                  '🎵 Clear MP3 Audio',
-                  '⚡ Fast Processing',
-                  '🔒 Secure & Private',
-                  '📱 Mobile Friendly',
-                  '💯 Free Service'
-                ].map((feature, index) => (
+                  '1. Paste any YouTube URL',
+                  '2. Select MP4 or MP3 format',
+                  '3. File downloads automatically',
+                  '4. Check your Downloads folder',
+                  '5. Enjoy your music/video!'
+                ].map((step, index) => (
                   <div key={index} style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
@@ -546,7 +550,7 @@ export default function Home() {
                     color: '#cbd5e0',
                     fontSize: '0.9rem'
                   }}>
-                    {feature}
+                    {step}
                   </div>
                 ))}
               </div>
