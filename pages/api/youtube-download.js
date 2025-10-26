@@ -40,33 +40,28 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // Use a simple and reliable approach - direct download services
-    let downloadUrl;
-    
-    if (type === 'mp3') {
-      // For MP3 downloads
-      downloadUrl = `https://api.vevioz.com/api/button/mp3/${videoId}`;
-    } else {
-      // For MP4 downloads  
-      downloadUrl = `https://api.vevioz.com/api/button/mp4/${videoId}`;
-    }
-
-    // Alternative services as fallback
-    const alternativeUrls = [
-      `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`,
-      `https://yt5s.com/en/api/convert/${videoId}`,
-      `https://y2mate.com/mates/analyzeV2/ajax`
-    ];
+    // Use multiple reliable download services
+    const downloadServices = {
+      mp3: [
+        `https://api.vevioz.com/api/button/mp3/${videoId}`,
+        `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=mp3`,
+        `https://yt5s.com/en/api/convert/${videoId}`
+      ],
+      mp4: [
+        `https://api.vevioz.com/api/button/mp4/${videoId}`,
+        `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=mp4`,
+        `https://yt5s.com/en/api/convert/${videoId}`
+      ]
+    };
 
     const responseData = {
       success: true,
-      downloadUrl: downloadUrl,
-      title: `YouTube ${type.toUpperCase()} - ${videoId}`,
+      downloadUrls: downloadServices[type],
+      title: `YouTube ${type.toUpperCase()} Download`,
       quality: type === 'mp4' ? '720p' : '128kbps',
       type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-      alternativeUrls: alternativeUrls
+      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
     };
 
     res.status(200).json(responseData);
@@ -74,7 +69,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Download error:', error);
     res.status(500).json({ 
-      error: 'Service temporarily unavailable. Please try again in a few moments.' 
+      error: 'Service temporarily unavailable. Please try again.' 
     });
   }
 }
