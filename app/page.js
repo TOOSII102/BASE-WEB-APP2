@@ -10,6 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
+  const [downloading, setDownloading] = useState(false)
 
   const handleDownload = async (e) => {
     e.preventDefault()
@@ -58,6 +59,81 @@ export default function Home() {
     setDownloadType('mp4')
     setResult(null)
     setError('')
+    setDownloading(false)
+  }
+
+  // Function to handle the actual download to device
+  const handleActualDownload = async () => {
+    if (!result || !result.downloadUrl) return;
+
+    setDownloading(true);
+    
+    try {
+      // Create a safe filename
+      const safeTitle = result.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const filename = `${safeTitle}.${result.type}`;
+      
+      // Method 1: Direct download using anchor tag with download attribute
+      const link = document.createElement('a');
+      link.href = result.downloadUrl;
+      link.setAttribute('download', filename);
+      link.setAttribute('target', '_blank');
+      
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Fallback: If direct download doesn't work, open in new tab
+      setTimeout(() => {
+        window.open(result.downloadUrl, '_blank');
+      }, 1000);
+      
+    } catch (err) {
+      console.error('Download error:', err);
+      // Fallback to opening in new tab
+      window.open(result.downloadUrl, '_blank');
+    } finally {
+      setTimeout(() => setDownloading(false), 2000);
+    }
+  }
+
+  // Alternative download method using fetch (for smaller files)
+  const handleFetchDownload = async () => {
+    if (!result || !result.downloadUrl) return;
+
+    setDownloading(true);
+    
+    try {
+      const response = await fetch(result.downloadUrl);
+      const blob = await response.blob();
+      
+      // Create blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      
+      const safeTitle = result.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const filename = `${safeTitle}.${result.type}`;
+      link.download = filename;
+      
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up blob URL
+      window.URL.revokeObjectURL(blobUrl);
+      
+    } catch (err) {
+      console.error('Fetch download error:', err);
+      // Fallback to direct method
+      handleActualDownload();
+    } finally {
+      setTimeout(() => setDownloading(false), 2000);
+    }
   }
 
   return (
@@ -187,21 +263,6 @@ export default function Home() {
                     icon: '🚀', 
                     title: 'Digital Marketing', 
                     desc: 'Boost your online presence and reach more customers' 
-                  },
-                  { 
-                    icon: '🛒', 
-                    title: 'E-commerce Solutions', 
-                    desc: 'Online stores and payment integration services' 
-                  },
-                  { 
-                    icon: '📊', 
-                    title: 'Data Analytics', 
-                    desc: 'Business intelligence and data visualization solutions' 
-                  },
-                  { 
-                    icon: '🔒', 
-                    title: 'Cyber Security', 
-                    desc: 'Security audits and protection for your digital assets' 
                   }
                 ].map((service, index) => (
                   <div key={index} style={{
@@ -209,8 +270,7 @@ export default function Home() {
                     padding: '1.5rem',
                     borderRadius: '12px',
                     border: '1px solid #334155',
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer'
+                    transition: 'transform 0.2s'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-5px)'
@@ -250,56 +310,8 @@ export default function Home() {
               </p>
               <p style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
                 Our YouTube downloader tool is just one example of our commitment to creating 
-                useful, free tools for the community. We believe in making technology accessible 
-                and beneficial for everyone.
+                useful, free tools for the community.
               </p>
-            </div>
-
-            {/* Why Choose Us Section */}
-            <div style={{ marginTop: '3rem' }}>
-              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'white' }}>
-                Why Choose TOOSII TECH?
-              </h2>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: '1.5rem'
-              }}>
-                {[
-                  { 
-                    icon: '⚡', 
-                    title: 'Fast Delivery', 
-                    desc: 'Quick turnaround times without compromising quality' 
-                  },
-                  { 
-                    icon: '💎', 
-                    title: 'Quality Assurance', 
-                    desc: 'Rigorous testing and quality control processes' 
-                  },
-                  { 
-                    icon: '🤝', 
-                    title: 'Client Focused', 
-                    desc: 'We prioritize your needs and business objectives' 
-                  },
-                  { 
-                    icon: '🌍', 
-                    title: 'Global Reach', 
-                    desc: 'Serving clients worldwide with local expertise' 
-                  }
-                ].map((feature, index) => (
-                  <div key={index} style={{
-                    background: 'rgba(30, 41, 59, 0.8)',
-                    padding: '1.5rem',
-                    borderRadius: '12px',
-                    border: '1px solid #334155',
-                    textAlign: 'center'
-                  }}>
-                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{feature.icon}</div>
-                    <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>{feature.title}</h4>
-                    <p style={{ color: '#cbd5e0', fontSize: '0.875rem' }}>{feature.desc}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -431,7 +443,7 @@ export default function Home() {
                   marginBottom: '1.5rem'
                 }}>
                   <h4 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                    Download Ready!
+                    ✅ Download Ready!
                   </h4>
                   <button 
                     onClick={resetForm}
@@ -465,43 +477,45 @@ export default function Home() {
                     gap: '1rem',
                     marginBottom: '1.5rem'
                   }}>
-                    {result.duration && (
-                      <div>
-                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Duration</div>
-                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
-                          {result.duration}
-                        </div>
-                      </div>
-                    )}
                     <div>
                       <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Format</div>
                       <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
                         {result.type.toUpperCase()}
                       </div>
                     </div>
+                    <div>
+                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Quality</div>
+                      <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                        {result.quality}
+                      </div>
+                    </div>
                   </div>
 
-                  <a 
-                    href={result.downloadUrl}
-                    download
+                  <button 
+                    onClick={handleActualDownload}
+                    disabled={downloading}
                     style={{
-                      display: 'block',
-                      textAlign: 'center',
-                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                      width: '100%',
+                      background: downloading 
+                        ? 'linear-gradient(135deg, #475569, #64748b)' 
+                        : 'linear-gradient(135deg, #10b981, #059669)',
                       color: 'white',
                       padding: '0.75rem 1.5rem',
                       borderRadius: '8px',
+                      border: 'none',
                       textDecoration: 'none',
                       fontWeight: '600',
-                      fontSize: '0.9rem'
+                      fontSize: '0.9rem',
+                      cursor: downloading ? 'not-allowed' : 'pointer',
+                      opacity: downloading ? 0.7 : 1
                     }}
                   >
-                    Download {result.type.toUpperCase()}
-                  </a>
+                    {downloading ? 'Downloading...' : `⬇️ Download ${result.type.toUpperCase()}`}
+                  </button>
                 </div>
 
                 <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-                  💡 Right-click and "Save link as..." to download
+                  💡 The file will download directly to your device
                 </div>
               </div>
             )}
