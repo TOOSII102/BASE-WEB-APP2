@@ -11,6 +11,11 @@ export default function Home() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
 
+  const validateYouTubeUrl = (url) => {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    return regex.test(url);
+  };
+
   const handleDownload = async (e) => {
     e.preventDefault()
     
@@ -19,31 +24,43 @@ export default function Home() {
       return
     }
 
+    if (!validateYouTubeUrl(url)) {
+      setError('Please enter a valid YouTube URL')
+      return
+    }
+
     setLoading(true)
     setError('')
     setResult(null)
 
     try {
-      const response = await fetch('/api/youtube', {
-        method: 'POST',
+      // Construct the API URL with parameters
+      const apiUrl = `https://casper-tech-apis.vercel.app/api/yt-dl?url=${encodeURIComponent(url.trim())}&type=${downloadType}`
+      
+      const response = await fetch(apiUrl, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          url: url.trim(),
-          type: downloadType
-        }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to download video')
+        throw new Error(data.error || data.message || 'Failed to download video')
       }
 
-      setResult(data)
+      // Format the response based on the API structure
+      setResult({
+        downloadUrl: data.downloadUrl || data.url,
+        title: data.title || 'YouTube Video',
+        duration: data.duration,
+        quality: data.quality,
+        size: data.size,
+        type: downloadType
+      })
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'An error occurred while processing your request')
     } finally {
       setLoading(false)
     }
@@ -190,8 +207,18 @@ export default function Home() {
                     padding: '1.5rem',
                     borderRadius: '12px',
                     border: '1px solid #334155',
-                    transition: 'transform 0.2s'
-                  }}>
+                    transition: 'transform 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)'
+                    e.currentTarget.style.borderColor = '#60a5fa'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.borderColor = '#334155'
+                  }}
+                  >
                     <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{service.icon}</div>
                     <h3 style={{ color: 'white', marginBottom: '0.5rem', fontSize: '1.25rem' }}>
                       {service.title}
@@ -266,8 +293,12 @@ export default function Home() {
                       border: '1px solid #475569',
                       background: '#1e293b',
                       color: 'white',
-                      fontSize: '1rem'
+                      fontSize: '1rem',
+                      outline: 'none',
+                      transition: 'border-color 0.2s'
                     }}
+                    onFocus={(e) => e.target.style.borderColor = '#60a5fa'}
+                    onBlur={(e) => e.target.style.borderColor = '#475569'}
                     required
                   />
                 </div>
@@ -282,7 +313,18 @@ export default function Home() {
                     Download Format
                   </label>
                   <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                    <label style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '0.5rem', 
+                      cursor: 'pointer',
+                      padding: '0.5rem',
+                      borderRadius: '6px',
+                      transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(96, 165, 250, 0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
                       <input 
                         type="radio"
                         value="mp4"
@@ -292,7 +334,18 @@ export default function Home() {
                       />
                       <span>MP4 Video</span>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                    <label style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '0.5rem', 
+                      cursor: 'pointer',
+                      padding: '0.5rem',
+                      borderRadius: '6px',
+                      transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(96, 165, 250, 0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
                       <input 
                         type="radio"
                         value="mp3"
@@ -318,10 +371,34 @@ export default function Home() {
                     fontWeight: '600',
                     fontSize: '1.1rem',
                     cursor: loading ? 'not-allowed' : 'pointer',
-                    opacity: loading ? 0.7 : 1
+                    opacity: loading ? 0.7 : 1,
+                    transition: 'all 0.2s',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!loading) {
+                      e.target.style.transform = 'translateY(-2px)'
+                      e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!loading) {
+                      e.target.style.transform = 'translateY(0)'
+                      e.target.style.boxShadow = 'none'
+                    }
                   }}
                 >
-                  {loading ? 'Processing...' : 'Download'}
+                  {loading ? (
+                    <>
+                      <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>
+                        ⏳
+                      </span>
+                      Processing...
+                    </>
+                  ) : (
+                    'Download Now'
+                  )}
                 </button>
               </form>
 
@@ -332,9 +409,10 @@ export default function Home() {
                   color: '#fca5a5',
                   padding: '1rem',
                   borderRadius: '8px',
-                  marginTop: '1rem'
+                  marginTop: '1rem',
+                  fontSize: '0.9rem'
                 }}>
-                  {error}
+                  ⚠️ {error}
                 </div>
               )}
             </div>
@@ -345,7 +423,8 @@ export default function Home() {
                 background: 'rgba(30, 41, 59, 0.9)',
                 border: '1px solid #334155',
                 borderRadius: '12px',
-                padding: '2rem'
+                padding: '2rem',
+                animation: 'fadeIn 0.5s ease-in'
               }}>
                 <div style={{ 
                   display: 'flex', 
@@ -354,7 +433,7 @@ export default function Home() {
                   marginBottom: '1.5rem'
                 }}>
                   <h4 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                    Download Ready!
+                    ✅ Download Ready!
                   </h4>
                   <button 
                     onClick={resetForm}
@@ -365,7 +444,16 @@ export default function Home() {
                       padding: '0.5rem 1rem',
                       borderRadius: '6px',
                       cursor: 'pointer',
-                      fontSize: '0.875rem'
+                      fontSize: '0.875rem',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'rgba(255, 255, 255, 0.2)'
+                      e.target.style.borderColor = '#60a5fa'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'rgba(255, 255, 255, 0.1)'
+                      e.target.style.borderColor = '#334155'
                     }}
                   >
                     New Download
@@ -378,8 +466,13 @@ export default function Home() {
                   borderRadius: '8px',
                   marginBottom: '1.5rem'
                 }}>
-                  <h5 style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>
-                    {result.data?.title || 'YouTube Video'}
+                  <h5 style={{ 
+                    color: 'white', 
+                    marginBottom: '1rem', 
+                    fontSize: '1rem',
+                    lineHeight: '1.4'
+                  }}>
+                    {result.title}
                   </h5>
                   
                   <div style={{ 
@@ -402,11 +495,27 @@ export default function Home() {
                         {result.type.toUpperCase()}
                       </div>
                     </div>
+                    {result.quality && (
+                      <div>
+                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Quality</div>
+                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                          {result.quality}
+                        </div>
+                      </div>
+                    )}
+                    {result.size && (
+                      <div>
+                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Size</div>
+                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                          {result.size}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <a 
                     href={result.downloadUrl}
-                    download
+                    download={`${result.title}.${result.type}`}
                     style={{
                       display: 'block',
                       textAlign: 'center',
@@ -416,15 +525,31 @@ export default function Home() {
                       borderRadius: '8px',
                       textDecoration: 'none',
                       fontWeight: '600',
-                      fontSize: '0.9rem'
+                      fontSize: '0.9rem',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)'
+                      e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)'
+                      e.target.style.boxShadow = 'none'
                     }}
                   >
-                    Download {result.type.toUpperCase()}
+                    ⬇️ Download {result.type.toUpperCase()}
                   </a>
                 </div>
 
-                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-                  💡 Right-click and "Save link as..." to download
+                <div style={{ 
+                  color: '#94a3b8', 
+                  fontSize: '0.75rem',
+                  textAlign: 'center',
+                  padding: '0.5rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '6px'
+                }}>
+                  💡 Right-click the download button and select "Save link as..." to download
                 </div>
               </div>
             )}
@@ -444,14 +569,17 @@ export default function Home() {
                   '🎥 High Quality MP4 Videos',
                   '🎵 Clear MP3 Audio',
                   '⚡ Fast Processing',
-                  '🔒 Secure & Private'
+                  '🔒 Secure & Private',
+                  '📱 Mobile Friendly',
+                  '💯 Free Service'
                 ].map((feature, index) => (
                   <div key={index} style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
                     gap: '0.5rem',
                     color: '#cbd5e0',
-                    fontSize: '0.9rem'
+                    fontSize: '0.9rem',
+                    padding: '0.25rem 0'
                   }}>
                     {feature}
                   </div>
@@ -492,6 +620,18 @@ export default function Home() {
             </p>
           </div>
         </footer>
+
+        {/* Add some basic animations */}
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
       </div>
     </>
   )
