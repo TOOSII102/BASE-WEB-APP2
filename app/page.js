@@ -46,8 +46,8 @@ export default function Home() {
 
       setResult(data)
       
-      // Trigger download immediately
-      triggerDirectDownload(data.downloadUrl, data.type);
+      // Open download page in new tab
+      openDownloadPage(data.videoId, data.type);
       
     } catch (err) {
       console.error('Download error:', err);
@@ -57,22 +57,26 @@ export default function Home() {
     }
   }
 
-  const triggerDirectDownload = (downloadUrl, type) => {
-    console.log('Starting direct download:', { downloadUrl, type });
+  const openDownloadPage = (videoId, type) => {
+    // Use working YouTube download websites
+    const downloadUrls = {
+      mp3: [
+        `https://ytmp3.cc/en13/convert?video=https://www.youtube.com/watch?v=${videoId}`,
+        `https://yt1s.com/en27?q=https://www.youtube.com/watch?v=${videoId}`,
+        `https://yt5s.com/en32?q=https://www.youtube.com/watch?v=${videoId}`
+      ],
+      mp4: [
+        `https://yt5s.com/en32?q=https://www.youtube.com/watch?v=${videoId}`,
+        `https://yt1s.com/en27?q=https://www.youtube.com/watch?v=${videoId}`,
+        `https://en.y2mate.is/youtube-to-mp4/${videoId}`
+      ]
+    };
+
+    // Open the first download URL in new tab
+    const downloadUrl = downloadUrls[type][0];
+    window.open(downloadUrl, '_blank');
     
-    // Create download link
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `youtube_download.${type}`; // This triggers download in browsers
-    link.target = '_blank'; // Fallback
-    link.style.display = 'none';
-    
-    // Add to page and click
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    console.log('Download triggered successfully');
+    console.log('Opening download page:', downloadUrl);
   }
 
   const resetForm = () => {
@@ -165,7 +169,7 @@ export default function Home() {
             color: '#cbd5e0',
             marginBottom: '2rem'
           }}>
-            Download videos and audio directly to your device
+            Download YouTube videos and audio to your device
           </p>
 
           {/* Download Box */}
@@ -297,7 +301,7 @@ export default function Home() {
                 opacity: loading || !url.trim() ? 0.7 : 1
               }}
             >
-              {loading ? '🔄 Downloading...' : '⬇️ Download to Device'}
+              {loading ? '🔄 Processing...' : '⬇️ Open Download Page'}
             </button>
           </div>
 
@@ -322,7 +326,7 @@ export default function Home() {
               padding: '2rem'
             }}>
               <h3 style={{ fontSize: '1.25rem', color: 'white', marginBottom: '1rem', textAlign: 'center' }}>
-                ✅ Download Complete!
+                ✅ Download Page Opened!
               </h3>
               
               <div style={{ 
@@ -332,7 +336,7 @@ export default function Home() {
                 marginBottom: '1rem'
               }}>
                 <div style={{ color: '#10b981', textAlign: 'center', marginBottom: '1rem', fontWeight: '500' }}>
-                  Your {result.type.toUpperCase()} file has been downloaded
+                  Download page opened in new tab
                 </div>
                 
                 <div style={{ 
@@ -352,7 +356,7 @@ export default function Home() {
                 </div>
 
                 <div style={{ color: '#94a3b8', fontSize: '0.875rem', textAlign: 'center' }}>
-                  💡 File saved to your Downloads folder
+                  💡 Follow the instructions on the download page to get your file
                 </div>
               </div>
 
@@ -377,12 +381,13 @@ export default function Home() {
 
           {/* Instructions */}
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <h3 style={{ color: 'white', marginBottom: '1rem' }}>How to Use</h3>
+            <h3 style={{ color: 'white', marginBottom: '1rem' }}>How It Works</h3>
             <div style={{ color: '#cbd5e0', lineHeight: '1.6', background: 'rgba(30, 41, 59, 0.5)', padding: '1rem', borderRadius: '8px' }}>
-              1. Paste any YouTube URL<br />
-              2. Choose MP4 (video) or MP3 (audio)<br />
-              3. Click "Download to Device"<br />
-              4. File saves automatically to Downloads folder
+              1. Paste YouTube URL and select format<br />
+              2. Click "Open Download Page"<br />
+              3. Download page opens in new tab<br />
+              4. Follow instructions to download file<br />
+              5. File saves to your device
             </div>
           </div>
         </div>
@@ -399,7 +404,7 @@ export default function Home() {
               TOOSII TECH
             </div>
             <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
-              Download YouTube videos and audio directly to your device
+              Easy YouTube video and audio downloads
             </p>
           </div>
         </footer>
