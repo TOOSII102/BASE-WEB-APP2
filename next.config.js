@@ -1,6 +1,33 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Remove experimental.appDir completely as it's now default in Next.js 13+
+{
+  "name": "toosii-tech-youtube-downloader",
+  "version": "1.0.0",
+  "description": "YouTube Downloader by TOOSII TECH - Download MP4 and MP3 from YouTube",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ytdl-core": "^4.11.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "14.0.0"
+  },
+  "keywords": [
+    "youtube",
+    "downloader",
+    "mp3",
+    "mp4",
+    "video",
+    "audio",
+    "toosii-tech"
+  ],
+  "author": "TOOSII TECH",
+  "license": "MIT"
 }
-
-module.exports = nextConfig
