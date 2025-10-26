@@ -49,18 +49,19 @@ export default function Home() {
       }
 
       if (!data.success) {
-        throw new Error('Download failed - please try again')
+        throw new Error('Download service returned an error')
       }
 
       setResult(data)
       
-      // Automatically trigger download
+      // Automatically trigger download after a short delay
       setTimeout(() => {
         triggerDownload(data.downloadUrl, data.title, data.type);
-      }, 1000);
+      }, 1500);
       
     } catch (err) {
-      setError(err.message || 'An error occurred while processing your request')
+      console.error('Download error:', err);
+      setError('Service temporarily unavailable. Please try a different video or try again later.')
     } finally {
       setLoading(false)
       setAutoDownload(false)
@@ -73,18 +74,21 @@ export default function Home() {
       const safeTitle = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
       const filename = `${safeTitle}.${type}`;
       
+      console.log('Starting download:', { downloadUrl, filename });
+      
       // Method 1: Direct download using anchor tag
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.setAttribute('download', filename);
       link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
       
       // Append to body, click, and remove
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      console.log('Download triggered:', filename);
+      console.log('Download triggered successfully');
       
     } catch (err) {
       console.error('Download error:', err);
@@ -121,6 +125,12 @@ export default function Home() {
   }
 
   const manualDownload = () => {
+    setAutoDownload(true);
+  }
+
+  // Test with a sample YouTube URL
+  const testDownload = () => {
+    setUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
     setAutoDownload(true);
   }
 
@@ -318,6 +328,24 @@ export default function Home() {
               }}>
                 YouTube Downloader
               </h3>
+
+              {/* Test Button */}
+              <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+                <button 
+                  onClick={testDownload}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: '#60a5fa',
+                    border: '1px solid #60a5fa',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem'
+                  }}
+                >
+                  🧪 Test with Sample Video
+                </button>
+              </div>
               
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ 
@@ -334,7 +362,7 @@ export default function Home() {
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   onPaste={handleUrlPaste}
-                  placeholder="Paste YouTube link here..."
+                  placeholder="https://www.youtube.com/watch?v=..."
                   style={{
                     width: '100%',
                     padding: '0.75rem 1rem',
@@ -374,7 +402,7 @@ export default function Home() {
                       fontWeight: '500'
                     }}
                   >
-                    MP4 Video
+                    🎥 MP4 Video
                   </button>
                   <button
                     type="button"
@@ -390,7 +418,7 @@ export default function Home() {
                       fontWeight: '500'
                     }}
                   >
-                    MP3 Audio
+                    🎵 MP3 Audio
                   </button>
                 </div>
               </div>
@@ -426,7 +454,7 @@ export default function Home() {
                   fontSize: '1.1rem',
                   textAlign: 'center'
                 }}>
-                  ⏳ Downloading to your device...
+                  ⏳ Processing and downloading...
                 </div>
               )}
             </div>
@@ -440,7 +468,7 @@ export default function Home() {
                 borderRadius: '8px',
                 marginBottom: '2rem'
               }}>
-                {error}
+                ⚠️ {error}
               </div>
             )}
 
@@ -500,9 +528,9 @@ export default function Home() {
                       </div>
                     </div>
                     <div>
-                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Status</div>
-                      <div style={{ color: '#10b981', fontWeight: '500', fontSize: '0.875rem' }}>
-                        Downloaded to Device
+                      <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Quality</div>
+                      <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
+                        {result.quality}
                       </div>
                     </div>
                   </div>
@@ -515,12 +543,12 @@ export default function Home() {
                     borderRadius: '6px',
                     border: '1px solid rgba(16, 185, 129, 0.3)'
                   }}>
-                    ✅ File saved to your Downloads folder
+                    ✅ File downloading to your device...
                   </div>
                 </div>
 
                 <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-                  💡 Check your Downloads folder to listen to the {result.type.toUpperCase()} file
+                  💡 Check your Downloads folder for the {result.type.toUpperCase()} file
                 </div>
               </div>
             )}
