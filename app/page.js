@@ -34,33 +34,107 @@ export default function Home() {
     setResult(null)
 
     try {
-      // Construct the API URL with parameters
+      // Option 1: Direct API call (might have CORS issues)
       const apiUrl = `https://casper-tech-apis.vercel.app/api/yt-dl?url=${encodeURIComponent(url.trim())}&type=${downloadType}`
       
+      console.log('Making request to:', apiUrl)
+
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        mode: 'cors', // Try with cors mode
+      })
+
+      // Check if response is ok
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('API response not OK:', response.status, errorText)
+        throw new Error(`Server error: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('API response:', data)
+
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
+      if (!data.downloadUrl && !data.url) {
+        throw new Error('No download URL received from server')
+      }
+
+      // Format the response
+      setResult({
+        downloadUrl: data.downloadUrl || data.url,
+        title: data.title || 'YouTube Video',
+        duration: data.duration || 'N/A',
+        quality: data.quality || 'High',
+        size: data.size || 'N/A',
+        type: downloadType
+      })
+
+    } catch (err) {
+      console.error('Download error:', err)
+      
+      // More specific error messages
+      if (err.name === 'TypeError' && err.message.includes('Failed to fetch')) {
+        setError('Network error: Cannot connect to download service. Please check your internet connection or try again later.')
+      } else if (err.message.includes('CORS')) {
+        setError('Cross-origin request blocked. Please try using our alternative download method.')
+      } else {
+        setError(err.message || 'Failed to process download. Please try again.')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Alternative download handler using proxy
+  const handleDownloadWithProxy = async (e) => {
+    e.preventDefault()
+    
+    if (!url.trim()) {
+      setError('Please enter a YouTube URL')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      // Use your own API route as proxy
+      const response = await fetch('/api/download', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: url.trim(),
+          type: downloadType
+        }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || data.message || 'Failed to download video')
+        throw new Error(data.error || 'Download failed')
       }
 
-      // Format the response based on the API structure
       setResult({
-        downloadUrl: data.downloadUrl || data.url,
+        downloadUrl: data.downloadUrl,
         title: data.title || 'YouTube Video',
         duration: data.duration,
         quality: data.quality,
         size: data.size,
         type: downloadType
       })
+
     } catch (err) {
-      setError(err.message || 'An error occurred while processing your request')
+      setError(err.message || 'Download failed. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -72,6 +146,33 @@ export default function Home() {
     setResult(null)
     setError('')
   }
+
+  // Create a proxy API route in your Next.js app
+  // Create this file: pages/api/download.js
+  /*
+  export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    const { url, type } = req.body;
+
+    try {
+      const apiUrl = `https://casper-tech-apis.vercel.app/api/yt-dl?url=${encodeURIComponent(url)}&type=${type}`;
+      
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Download failed');
+      }
+
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  */
 
   return (
     <>
@@ -207,18 +308,8 @@ export default function Home() {
                     padding: '1.5rem',
                     borderRadius: '12px',
                     border: '1px solid #334155',
-                    transition: 'transform 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-5px)'
-                    e.currentTarget.style.borderColor = '#60a5fa'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.borderColor = '#334155'
-                  }}
-                  >
+                    transition: 'transform 0.2s'
+                  }}>
                     <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{service.icon}</div>
                     <h3 style={{ color: 'white', marginBottom: '0.5rem', fontSize: '1.25rem' }}>
                       {service.title}
@@ -229,27 +320,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* About Section */}
-            <div style={{
-              background: 'rgba(30, 41, 59, 0.8)',
-              border: '1px solid #334155',
-              borderRadius: '12px',
-              padding: '2rem'
-            }}>
-              <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>
-                About TOOSII TECH
-              </h2>
-              <p style={{ color: '#cbd5e0', lineHeight: '1.6', marginBottom: '1rem' }}>
-                Based in Nairobi, Kenya, TOOSII TECH provides cutting-edge technology solutions 
-                for businesses and individuals. We specialize in web development, mobile applications, 
-                and digital services that help you succeed in the digital world.
-              </p>
-              <p style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
-                Our YouTube downloader tool is just one example of our commitment to creating 
-                useful, free tools for the community.
-              </p>
             </div>
           </div>
 
@@ -293,12 +363,8 @@ export default function Home() {
                       border: '1px solid #475569',
                       background: '#1e293b',
                       color: 'white',
-                      fontSize: '1rem',
-                      outline: 'none',
-                      transition: 'border-color 0.2s'
+                      fontSize: '1rem'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = '#60a5fa'}
-                    onBlur={(e) => e.target.style.borderColor = '#475569'}
                     required
                   />
                 </div>
@@ -313,18 +379,7 @@ export default function Home() {
                     Download Format
                   </label>
                   <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '0.5rem', 
-                      cursor: 'pointer',
-                      padding: '0.5rem',
-                      borderRadius: '6px',
-                      transition: 'background 0.2s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(96, 165, 250, 0.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
                       <input 
                         type="radio"
                         value="mp4"
@@ -334,18 +389,7 @@ export default function Home() {
                       />
                       <span>MP4 Video</span>
                     </label>
-                    <label style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '0.5rem', 
-                      cursor: 'pointer',
-                      padding: '0.5rem',
-                      borderRadius: '6px',
-                      transition: 'background 0.2s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(96, 165, 250, 0.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
                       <input 
                         type="radio"
                         value="mp3"
@@ -371,35 +415,31 @@ export default function Home() {
                     fontWeight: '600',
                     fontSize: '1.1rem',
                     cursor: loading ? 'not-allowed' : 'pointer',
-                    opacity: loading ? 0.7 : 1,
-                    transition: 'all 0.2s',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!loading) {
-                      e.target.style.transform = 'translateY(-2px)'
-                      e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!loading) {
-                      e.target.style.transform = 'translateY(0)'
-                      e.target.style.boxShadow = 'none'
-                    }
+                    opacity: loading ? 0.7 : 1
                   }}
                 >
-                  {loading ? (
-                    <>
-                      <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>
-                        ⏳
-                      </span>
-                      Processing...
-                    </>
-                  ) : (
-                    'Download Now'
-                  )}
+                  {loading ? 'Processing...' : 'Download'}
                 </button>
+
+                {/* Alternative download button */}
+                <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                  <button 
+                    type="button"
+                    onClick={handleDownloadWithProxy}
+                    disabled={loading}
+                    style={{
+                      background: 'transparent',
+                      color: '#60a5fa',
+                      border: '1px solid #60a5fa',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '6px',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      fontSize: '0.9rem'
+                    }}
+                  >
+                    Try Alternative Method
+                  </button>
+                </div>
               </form>
 
               {error && (
@@ -412,7 +452,28 @@ export default function Home() {
                   marginTop: '1rem',
                   fontSize: '0.9rem'
                 }}>
-                  ⚠️ {error}
+                  {error}
+                </div>
+              )}
+
+              {/* Troubleshooting tips */}
+              {error && error.includes('Failed to fetch') && (
+                <div style={{
+                  background: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  color: '#93c5fd',
+                  padding: '1rem',
+                  borderRadius: '8px',
+                  marginTop: '1rem',
+                  fontSize: '0.8rem'
+                }}>
+                  <strong>Troubleshooting tips:</strong>
+                  <ul style={{ margin: '0.5rem 0 0 1rem', padding: 0 }}>
+                    <li>Check your internet connection</li>
+                    <li>Try the alternative download method</li>
+                    <li>Make sure the YouTube URL is valid</li>
+                    <li>Try again in a few minutes</li>
+                  </ul>
                 </div>
               )}
             </div>
@@ -423,8 +484,7 @@ export default function Home() {
                 background: 'rgba(30, 41, 59, 0.9)',
                 border: '1px solid #334155',
                 borderRadius: '12px',
-                padding: '2rem',
-                animation: 'fadeIn 0.5s ease-in'
+                padding: '2rem'
               }}>
                 <div style={{ 
                   display: 'flex', 
@@ -433,7 +493,7 @@ export default function Home() {
                   marginBottom: '1.5rem'
                 }}>
                   <h4 style={{ fontSize: '1.25rem', color: 'white', margin: 0 }}>
-                    ✅ Download Ready!
+                    Download Ready!
                   </h4>
                   <button 
                     onClick={resetForm}
@@ -444,16 +504,7 @@ export default function Home() {
                       padding: '0.5rem 1rem',
                       borderRadius: '6px',
                       cursor: 'pointer',
-                      fontSize: '0.875rem',
-                      transition: 'all 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = 'rgba(255, 255, 255, 0.2)'
-                      e.target.style.borderColor = '#60a5fa'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = 'rgba(255, 255, 255, 0.1)'
-                      e.target.style.borderColor = '#334155'
+                      fontSize: '0.875rem'
                     }}
                   >
                     New Download
@@ -466,12 +517,7 @@ export default function Home() {
                   borderRadius: '8px',
                   marginBottom: '1.5rem'
                 }}>
-                  <h5 style={{ 
-                    color: 'white', 
-                    marginBottom: '1rem', 
-                    fontSize: '1rem',
-                    lineHeight: '1.4'
-                  }}>
+                  <h5 style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>
                     {result.title}
                   </h5>
                   
@@ -495,27 +541,11 @@ export default function Home() {
                         {result.type.toUpperCase()}
                       </div>
                     </div>
-                    {result.quality && (
-                      <div>
-                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Quality</div>
-                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
-                          {result.quality}
-                        </div>
-                      </div>
-                    )}
-                    {result.size && (
-                      <div>
-                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Size</div>
-                        <div style={{ color: 'white', fontWeight: '500', fontSize: '0.875rem' }}>
-                          {result.size}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   <a 
                     href={result.downloadUrl}
-                    download={`${result.title}.${result.type}`}
+                    download
                     style={{
                       display: 'block',
                       textAlign: 'center',
@@ -525,67 +555,18 @@ export default function Home() {
                       borderRadius: '8px',
                       textDecoration: 'none',
                       fontWeight: '600',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.transform = 'translateY(-2px)'
-                      e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.transform = 'translateY(0)'
-                      e.target.style.boxShadow = 'none'
+                      fontSize: '0.9rem'
                     }}
                   >
-                    ⬇️ Download {result.type.toUpperCase()}
+                    Download {result.type.toUpperCase()}
                   </a>
                 </div>
 
-                <div style={{ 
-                  color: '#94a3b8', 
-                  fontSize: '0.75rem',
-                  textAlign: 'center',
-                  padding: '0.5rem',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '6px'
-                }}>
-                  💡 Right-click the download button and select "Save link as..." to download
+                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+                  💡 Right-click and "Save link as..." to download
                 </div>
               </div>
             )}
-
-            {/* Quick Features */}
-            <div style={{
-              background: 'rgba(30, 41, 59, 0.8)',
-              border: '1px solid #334155',
-              borderRadius: '12px',
-              padding: '1.5rem'
-            }}>
-              <h4 style={{ color: 'white', marginBottom: '1rem', fontSize: '1.1rem' }}>
-                Download Features
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {[
-                  '🎥 High Quality MP4 Videos',
-                  '🎵 Clear MP3 Audio',
-                  '⚡ Fast Processing',
-                  '🔒 Secure & Private',
-                  '📱 Mobile Friendly',
-                  '💯 Free Service'
-                ].map((feature, index) => (
-                  <div key={index} style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '0.5rem',
-                    color: '#cbd5e0',
-                    fontSize: '0.9rem',
-                    padding: '0.25rem 0'
-                  }}>
-                    {feature}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
@@ -620,18 +601,6 @@ export default function Home() {
             </p>
           </div>
         </footer>
-
-        {/* Add some basic animations */}
-        <style jsx>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
       </div>
     </>
   )
