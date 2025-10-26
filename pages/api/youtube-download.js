@@ -40,113 +40,41 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // Use a reliable YouTube download API
-    // Option 1: y2mate API (free and reliable)
-    const apiUrl = `https://y2mate.com/mates/analyzeV2/ajax`;
+    // Use a simple and reliable approach - direct download services
+    let downloadUrl;
     
-    const formData = new URLSearchParams();
-    formData.append('k_query', url);
-    formData.append('k_page', 'home');
-    formData.append('hl', 'en');
-    formData.append('q_auto', '0');
-
-    const apiResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      body: formData
-    });
-
-    const data = await apiResponse.json();
-
-    if (!data || !data.links) {
-      // Fallback to direct download links
-      const fallbackData = {
-        success: true,
-        downloadUrl: `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`,
-        title: `YouTube Video - ${videoId}`,
-        duration: 'Unknown',
-        quality: type === 'mp4' ? '720p' : '128kbps',
-        size: 'Unknown',
-        type: type,
-        videoId: videoId,
-        thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-      };
-      
-      return res.status(200).json(fallbackData);
-    }
-
-    // Process the response and find the best download link
-    let downloadLink = '';
-    let quality = '';
-
     if (type === 'mp3') {
-      // Find MP3 links
-      const mp3Links = Object.values(data.links.mp3 || {});
-      if (mp3Links.length > 0) {
-        downloadLink = mp3Links[0].dlink || mp3Links[0].link;
-        quality = mp3Links[0].q || '128kbps';
-      }
+      // For MP3 downloads
+      downloadUrl = `https://api.vevioz.com/api/button/mp3/${videoId}`;
     } else {
-      // Find MP4 links
-      const mp4Links = Object.values(data.links.mp4 || {});
-      if (mp4Links.length > 0) {
-        // Get the highest quality
-        const bestQuality = mp4Links.reduce((best, current) => {
-          return (parseInt(current.size) > parseInt(best.size)) ? current : best;
-        });
-        downloadLink = bestQuality.dlink || bestQuality.link;
-        quality = bestQuality.q || '720p';
-      }
+      // For MP4 downloads  
+      downloadUrl = `https://api.vevioz.com/api/button/mp4/${videoId}`;
     }
 
-    if (!downloadLink) {
-      throw new Error('No download link found for the selected format');
-    }
-
-    // Get video info for title
-    const videoInfo = data.video_title || `YouTube Video - ${videoId}`;
+    // Alternative services as fallback
+    const alternativeUrls = [
+      `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`,
+      `https://yt5s.com/en/api/convert/${videoId}`,
+      `https://y2mate.com/mates/analyzeV2/ajax`
+    ];
 
     const responseData = {
       success: true,
-      downloadUrl: downloadLink,
-      title: videoInfo,
-      duration: 'Unknown',
-      quality: quality,
-      size: 'Unknown',
+      downloadUrl: downloadUrl,
+      title: `YouTube ${type.toUpperCase()} - ${videoId}`,
+      quality: type === 'mp4' ? '720p' : '128kbps',
       type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      alternativeUrls: alternativeUrls
     };
 
     res.status(200).json(responseData);
 
   } catch (error) {
     console.error('Download error:', error);
-    
-    // Fallback: Return a direct download link using loader.to
-    try {
-      const fallbackUrl = `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`;
-      
-      const responseData = {
-        success: true,
-        downloadUrl: fallbackUrl,
-        title: 'YouTube Video',
-        duration: 'Unknown',
-        quality: type === 'mp4' ? '720p' : '128kbps',
-        size: 'Unknown',
-        type: type,
-        videoId: 'unknown',
-        thumbnail: ''
-      };
-
-      res.status(200).json(responseData);
-    } catch (fallbackError) {
-      res.status(500).json({ 
-        error: 'Download service is temporarily unavailable. Please try again later.' 
-      });
-    }
+    res.status(500).json({ 
+      error: 'Service temporarily unavailable. Please try again in a few moments.' 
+    });
   }
 }
