@@ -40,17 +40,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // Use the working API endpoint
-    const downloadUrl = `https://api.onlinevideoconverter.pro/api/button/${type}/${videoId}`;
-
+    // Return the video ID and let the client handle the download
     const responseData = {
       success: true,
-      downloadUrl: downloadUrl,
-      title: `YouTube ${type.toUpperCase()} Download`,
-      quality: type === 'mp4' ? '720p' : '128kbps',
-      type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      type: type,
+      title: `YouTube ${type.toUpperCase()} - ${videoId}`,
+      quality: type === 'mp4' ? '720p' : '128kbps',
+      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      directUrls: [
+        `https://yt5s.com/en32/download-youtube/${videoId}`,
+        `https://loader.to/api/download?url=https://www.youtube.com/watch?v=${videoId}&format=${type}`,
+        `https://ytmp3.cc/en13/convert?video=https://www.youtube.com/watch?v=${videoId}`
+      ]
     };
 
     res.status(200).json(responseData);
