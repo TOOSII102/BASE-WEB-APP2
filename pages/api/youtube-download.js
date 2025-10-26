@@ -1,3 +1,6 @@
+import ytdl from 'ytdl-core';
+import { PassThrough } from 'stream';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -12,48 +15,91 @@ export default async function handler(req, res) {
     }
 
     // Validate YouTube URL
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
-    if (!youtubeRegex.test(url)) {
+    if (!ytdl.validateURL(url)) {
       return res.status(400).json({ error: 'Please enter a valid YouTube URL' });
     }
 
-    // Extract video ID
-    let videoId = '';
-    if (url.includes('youtube.com/watch?v=')) {
-      videoId = url.split('v=')[1]?.split('&')[0];
-    } else if (url.includes('youtu.be/')) {
-      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    // Get video info
+    const info = await ytdl.getInfo(url);
+    const videoDetails = info.videoDetails;
+
+    if (!videoDetails) {
+      return res.status(400).json({ error: 'Could not fetch video information' });
     }
 
-    if (!videoId) {
-      return res.status(400).json({ error: 'Could not extract video ID from URL' });
+    // Choose format based on type
+    let format;
+    if (type === 'mp3') {
+      format = ytdl.chooseFormat(info.formats, {
+        quality: 'highestaudio',
+        filter: 'audioonly'
+      });
+    } else {
+      format = ytdl.chooseFormat(info.formats, {
+        quality: 'highest',
+        filter: 'videoandaudio'
+      });
     }
 
-    // For demo purposes - in a real implementation, you would use ytdl-core or similar
-    // This creates a mock download URL that simulates the download process
-    const mockDownloadUrl = `https://youtube-download.example.com/download/${videoId}.${type}`;
+    if (!format) {
+      return res.status(400).json({ error: 'No suitable format found for download' });
+    }
+
+    // Calculate approximate file size and duration
+    const duration = parseInt(videoDetails.lengthSeconds);
+    const durationFormatted = formatDuration(duration);
     
-    // Mock response data
+    // Estimate file size (rough calculation)
+    const bitrate = format.bitrate || (type === 'mp3' ? 128000 : 1000000);
+    const estimatedSize = Math.round((bitrate * duration) / (8 * 1024 * 1024));
+    const sizeText = estimatedSize > 0 ? `${estimatedSize} MB` : 'Unknown';
+
+    // Prepare response data
     const responseData = {
       success: true,
-      downloadUrl: mockDownloadUrl,
-      title: `YouTube Video - ${videoId}`,
-      duration: '10:30',
-      quality: type === 'mp4' ? '1080p' : '128kbps',
-      size: type === 'mp4' ? '45.2 MB' : '8.7 MB',
+      downloadUrl: format.url,
+      title: videoDetails.title,
+      duration: durationFormatted,
+      quality: format.qualityLabel || (type === 'mp3' ? '128kbps' : 'HD'),
+      size: sizeText,
       type: type,
-      videoId: videoId
+      videoId: videoDetails.videoId,
+      thumbnail: videoDetails.thumbnails[0]?.url
     };
-
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
     res.status(200).json(responseData);
 
   } catch (error) {
     console.error('Download error:', error);
+    
+    if (error.message.includes('Video unavailable')) {
+      return res.status(400).json({ error: 'Video is unavailable or private' });
+    }
+    
+    if (error.message.includes('Sign in to confirm')) {
+      return res.status(400).json({ error: 'This video is age-restricted and cannot be downloaded' });
+    }
+
     res.status(500).json({ 
-      error: 'Failed to process download request. Please try again.' 
+      error: 'Failed to process download request. Please try again with a different video.' 
     });
   }
 }
+
+// Helper function to format duration
+function formatDuration(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
