@@ -1,33 +1,21 @@
-{
-  "name": "toosii-tech-youtube-downloader",
-  "version": "1.0.0",
-  "description": "YouTube Downloader by TOOSII TECH - Download MP4 and MP3 from YouTube",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['ytdl-core'],
   },
-  "dependencies": {
-    "next": "14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ytdl-core": "^4.11.5"
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
+          { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
+        ],
+      },
+    ]
   },
-  "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-next": "14.0.0"
-  },
-  "keywords": [
-    "youtube",
-    "downloader",
-    "mp3",
-    "mp4",
-    "video",
-    "audio",
-    "toosii-tech"
-  ],
-  "author": "TOOSII TECH",
-  "license": "MIT"
 }
+
+module.exports = nextConfig
