@@ -46,43 +46,33 @@ export default function Home() {
 
       setResult(data)
       
-      // Trigger download with all available URLs
-      triggerAllDownloads(data.downloadUrls, data.type);
+      // Trigger download immediately
+      triggerDirectDownload(data.downloadUrl, data.type);
       
     } catch (err) {
       console.error('Download error:', err);
-      setError(err.message || 'Download failed. Please try a different video or try again later.')
+      setError(err.message || 'Download failed. Please try a different video.')
     } finally {
       setLoading(false)
     }
   }
 
-  const triggerAllDownloads = (downloadUrls, type) => {
-    console.log('Starting downloads with URLs:', downloadUrls);
+  const triggerDirectDownload = (downloadUrl, type) => {
+    console.log('Starting direct download:', { downloadUrl, type });
     
-    // Try each download URL
-    downloadUrls.forEach((downloadUrl, index) => {
-      setTimeout(() => {
-        try {
-          // Create download link
-          const link = document.createElement('a');
-          link.href = downloadUrl;
-          link.download = `youtube_video.${type}`;
-          link.target = '_blank';
-          link.style.display = 'none';
-          
-          // Add to page and click
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          console.log(`Download attempt ${index + 1} triggered`);
-          
-        } catch (err) {
-          console.log(`Download attempt ${index + 1} failed:`, err);
-        }
-      }, index * 1000); // Stagger attempts
-    });
+    // Create download link
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `youtube_download.${type}`; // This triggers download in browsers
+    link.target = '_blank'; // Fallback
+    link.style.display = 'none';
+    
+    // Add to page and click
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log('Download triggered successfully');
   }
 
   const resetForm = () => {
@@ -147,6 +137,10 @@ export default function Home() {
             }}>
               TOOSII TECH
             </Link>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              <Link href="/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Home</Link>
+              <a href="https://toosii-tech-company-3npa.vercel.app/" style={{ color: '#60a5fa', textDecoration: 'none' }}>Portal</a>
+            </div>
           </div>
         </nav>
 
@@ -196,7 +190,7 @@ export default function Home() {
                   fontSize: '0.875rem'
                 }}
               >
-                Test MP4
+                Test MP4 Video
               </button>
               <button 
                 onClick={() => testDownload('mp3')}
@@ -210,7 +204,7 @@ export default function Home() {
                   fontSize: '0.875rem'
                 }}
               >
-                Test MP3
+                Test MP3 Audio
               </button>
             </div>
 
@@ -229,7 +223,7 @@ export default function Home() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Paste YouTube link here..."
+                placeholder="Paste any YouTube link here..."
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem',
@@ -266,7 +260,7 @@ export default function Home() {
                     fontWeight: '500'
                   }}
                 >
-                  MP4 Video
+                  🎥 MP4 Video
                 </button>
                 <button
                   type="button"
@@ -282,7 +276,7 @@ export default function Home() {
                     fontWeight: '500'
                   }}
                 >
-                  MP3 Audio
+                  🎵 MP3 Audio
                 </button>
               </div>
             </div>
@@ -303,7 +297,7 @@ export default function Home() {
                 opacity: loading || !url.trim() ? 0.7 : 1
               }}
             >
-              {loading ? '🔄 Processing...' : '⬇️ Download Now'}
+              {loading ? '🔄 Downloading...' : '⬇️ Download to Device'}
             </button>
           </div>
 
@@ -328,7 +322,7 @@ export default function Home() {
               padding: '2rem'
             }}>
               <h3 style={{ fontSize: '1.25rem', color: 'white', marginBottom: '1rem', textAlign: 'center' }}>
-                ✅ Download Started!
+                ✅ Download Complete!
               </h3>
               
               <div style={{ 
@@ -338,7 +332,7 @@ export default function Home() {
                 marginBottom: '1rem'
               }}>
                 <div style={{ color: '#10b981', textAlign: 'center', marginBottom: '1rem', fontWeight: '500' }}>
-                  Your {result.type.toUpperCase()} file is downloading...
+                  Your {result.type.toUpperCase()} file has been downloaded
                 </div>
                 
                 <div style={{ 
@@ -355,6 +349,10 @@ export default function Home() {
                     <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Quality</div>
                     <div style={{ color: 'white', fontWeight: '500' }}>{result.quality}</div>
                   </div>
+                </div>
+
+                <div style={{ color: '#94a3b8', fontSize: '0.875rem', textAlign: 'center' }}>
+                  💡 File saved to your Downloads folder
                 </div>
               </div>
 
@@ -379,12 +377,12 @@ export default function Home() {
 
           {/* Instructions */}
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <h3 style={{ color: 'white', marginBottom: '1rem' }}>How to Download</h3>
-            <div style={{ color: '#cbd5e0', lineHeight: '1.6' }}>
-              1. Paste YouTube URL<br />
-              2. Select MP4 or MP3<br />
-              3. Click Download<br />
-              4. File saves to your device
+            <h3 style={{ color: 'white', marginBottom: '1rem' }}>How to Use</h3>
+            <div style={{ color: '#cbd5e0', lineHeight: '1.6', background: 'rgba(30, 41, 59, 0.5)', padding: '1rem', borderRadius: '8px' }}>
+              1. Paste any YouTube URL<br />
+              2. Choose MP4 (video) or MP3 (audio)<br />
+              3. Click "Download to Device"<br />
+              4. File saves automatically to Downloads folder
             </div>
           </div>
         </div>
