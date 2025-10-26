@@ -40,26 +40,31 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not extract valid video ID from URL' });
     }
 
-    // For demonstration, we'll use a proxy service or create direct links
-    // Note: In production, you'd need to use a proper YouTube download API service
-    const downloadUrl = `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`;
+    // Use the actual video-download-api.com service
+    const apiUrl = `https://loader.to/api/download?url=${encodeURIComponent(url)}&format=${type}`;
     
-    // Mock response with realistic data
+    // Fetch from the actual API
+    const apiResponse = await fetch(apiUrl);
+    const data = await apiResponse.json();
+
+    if (!data.success) {
+      throw new Error(data.message || 'Download service failed');
+    }
+
+    // Format the response with actual data from the API
     const responseData = {
       success: true,
-      downloadUrl: downloadUrl,
-      title: `YouTube Video - ${videoId}`,
-      duration: '5:30',
-      quality: type === 'mp4' ? '1080p' : '128kbps',
-      size: type === 'mp4' ? '45.2 MB' : '8.7 MB',
+      downloadUrl: `https://p.savenow.to/api/download?id=${data.id}&type=${type}`,
+      title: data.title || `YouTube Video - ${videoId}`,
+      duration: 'Processing...',
+      quality: type === 'mp4' ? 'HD' : '128kbps',
+      size: 'Processing...',
       type: type,
       videoId: videoId,
-      thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-      note: "This is a demo version. For full functionality, integrate with a YouTube download API service."
+      thumbnail: data.info?.image || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      progressUrl: data.progress_url,
+      apiId: data.id
     };
-
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
 
     res.status(200).json(responseData);
 
